@@ -1,4 +1,4 @@
-import { useAuthStore } from "../../medbook/store/auth";
+import { useAuthStore } from "~/store/auth";
 import { navigateTo } from "#app";
 
 export default defineNuxtRouteMiddleware((to, from) => {
