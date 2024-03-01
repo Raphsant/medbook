@@ -1,5 +1,5 @@
 <script setup>
-
+const {isMobile} = useDevice();
 const signupForm = ref({
   firstName: "",
   lastName: "",
@@ -36,8 +36,7 @@ const selected = ref(false)
 </script>
 
 <template>
-  <template>
-
+  <div v-if="!isMobile">
     <UCard>
       <template #header>
         <div>
@@ -73,7 +72,50 @@ const selected = ref(false)
     </UCard>
 
 
-  </template>
+
+  </div>
+  <div v-if="isMobile">
+    <UCard>
+      <template #header>
+        <div class="w-full flex flex-col gap-1 justify-center items-center">
+          <div class="text-lg text-gray-500 text-center">
+            Bienvenido al sistema Medbook de
+          </div>
+          <div class="text-primary text-center">
+            Centro Clinico Vista Centro
+          </div>
+        </div>
+      </template>
+      <UForm class="space-y-4" @submit="signup">
+        <UFormGroup label="Nombre de Usuario">
+          <UInput size="xl" v-model="signupForm.username"  icon="i-heroicons-at-symbol" />
+        </UFormGroup>
+        <UFormGroup label="Primer Nombre">
+          <UInput size="xl" v-model="signupForm.firstName" icon="i-heroicons-user"/>
+        </UFormGroup>
+        <UFormGroup label="Apellido">
+          <UInput size="xl" v-model="signupForm.lastName" icon="i-heroicons-user"/>
+        </UFormGroup>
+        <UFormGroup label="Cedula de Identidad">
+          <UInput size="xl" v-model="signupForm.id" icon="i-heroicons-identification"/>
+        </UFormGroup>
+        <UFormGroup label="Correo Electronico">
+          <UInput size="xl" v-model="signupForm.email" icon="i-heroicons-envelope"/>
+        </UFormGroup>
+        <UFormGroup label="Contraseña">
+          <UInput type="password" size="xl" v-model="signupForm.password" icon="i-heroicons-key"/>
+        </UFormGroup>
+        <UButton type="submit" block>Registrarse</UButton>
+      </UForm>
+      <template #footer>
+        <div class="flex flex-col justify-center items-center gap-4">
+          <div class="text-sm text-center">
+            Al ingresar estas aceptando nuestros <span class="text-primary">terminos y condidiciones</span>
+          </div>
+        </div>
+      </template>
+    </UCard>
+  </div>
 </template>
 
 <style scoped>

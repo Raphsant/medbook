@@ -1,5 +1,5 @@
 <template>
-<div class="flex flex-col justify-between h-screen">
+<div v-if="!isMobile" class="flex flex-col justify-between h-screen">
   <Navbar/>
   <slot/>
   <UFooter :links="links">
@@ -21,19 +21,50 @@
     </template>
   </UFooter>
 </div>
+<div class="min-h-screen flex w-screen h-screen flex-col justify-around items-center px-1 mx-1 gap-20" v-if="isMobile">
+  <slot class="pb-[50rem] h-screen overflow-y-auto"/>
+  <div v-if="isMobile" class="fixed bottom-6 right-6 w-fit">
+    <UButton @click="isOpen = !isOpen" :ui="{ rounded: 'rounded-full' }" size="xl" ><UIcon name="i-heroicons-bars-3" /> Menu </UButton>
+  </div>
+</div>
+  <UModal v-model="isOpen">
+    <div class="p-4 h-fit flex justify-center items-center">
+      <UNavigationLinks @click="isOpen = !isOpen" :links="links" />
+    </div>
+  </UModal>
 </template>
 
+
 <script setup lang="ts">
-const links = [{
-  label: 'Direccion',
-  to: 'https://ui.nuxt.com/'
+
+const isOpen = ref(false)
+
+const mapping = ['/', '/appointment', '/myapts', '/profile']
+
+const {isMobile} = useDevice();
+function onChange (index) {
+  navigateTo(mapping[index])
+
+}
+
+const links = [ {
+  label: 'Inicio',
+  to: '/',
+  icon: 'i-heroicons-home'
 }, {
-  label: 'Panel Admin',
-  to: 'https://nuxt.com'
+  label: 'Agendar Cita',
+  to: '/appointment',
+  icon: 'i-heroicons-pencil',
 }, {
-  label: 'Webmaster',
-  to: 'https://nuxt.studio'
+  label: 'Mis Citas',
+  to: '/myapts',
+  icon: 'i-heroicons-bookmark-square'
+}, {
+  label: 'Perfil',
+  to: '/profile',
+  icon: 'i-heroicons-user-circle\n'
 }]
+
 </script>
 
 

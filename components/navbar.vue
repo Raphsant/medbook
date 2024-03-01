@@ -7,55 +7,6 @@
       <UColorModeSelect class="w-28" />
     </div>
   </div>
-
-  <!--  <div class="flex h-full">-->
-  <!--    <div-->
-  <!--        class="bg-gradient-to-br from-white to-gray-100 m-6 h-120 rounded-xl flex flex-col justify-center items-center w-fit p-5 shadow-md grow">-->
-  <!--      <ul class="flex flex-row gap-5 grow">-->
-  <!--        <li>-->
-  <!--          <div class="px-1 py-2 bg-indigo-600 text-white rounded-md shadow-2xl shadow-gray-600 text-center hover:bg-indigo-800 cursor-pointer hover:shadow-inner hover:shadow-black">-->
-  <!--            <NuxtLink to="/">Inicio</NuxtLink>-->
-  <!--          </div>-->
-  <!--        </li>-->
-  <!--        <li>-->
-  <!--          <div class="px-1 py-2 bg-indigo-600 text-white rounded-md shadow-2xl shadow-gray-600 text-center hover:bg-indigo-800 cursor-pointer hover:shadow-inner hover:shadow-black">-->
-  <!--            <NuxtLink to="/appointment">-->
-  <!--              Crear Cita-->
-  <!--            </NuxtLink>-->
-  <!--          </div>-->
-  <!--        </li>-->
-  <!--        <li>-->
-  <!--          <div class="px-1 py-2 bg-indigo-600 text-white rounded-md shadow-2xl shadow-gray-600 text-center hover:bg-indigo-800 cursor-pointer hover:shadow-inner hover:shadow-black"><NuxtLink to="/myapts">-->
-  <!--            Mis Citas-->
-  <!--          </NuxtLink>-->
-  <!--          </div>-->
-  <!--        </li>-->
-  <!--        <li>-->
-  <!--          <NuxtLink to="/profile"><div class="px-1 py-2 bg-indigo-600 text-white rounded-md shadow-2xl shadow-gray-600 text-center hover:bg-indigo-800 cursor-pointer hover:shadow-inner hover:shadow-black">-->
-  <!--            Mi Perfil-->
-  <!--          </div></NuxtLink>-->
-  <!--        </li>-->
-  <!--      </ul>-->
-  <!--    </div>-->
-  <!--    <div class="bg-neutral-100 m-6 h-120 rounded-xl flex flex-col justify-center items-center w-fit p-5 shadow-md">-->
-  <!--      <ul class="flex flex-row gap-5">-->
-  <!--        <li>-->
-  <!--          <div class="px-1 py-2 bg-indigo-600 text-white rounded-md shadow-2xl shadow-gray-600 text-center hover:bg-indigo-800 cursor-pointer hover:shadow-inner hover:shadow-black"-->
-  <!--               v-if="!token">-->
-  <!--            <NuxtLink to="/login">Iniciar Sesion</NuxtLink>-->
-  <!--          </div>-->
-  <!--          <div class="px-1 py-2 bg-indigo-600 text-white rounded-md shadow-2xl shadow-gray-600 text-center hover:bg-indigo-800 cursor-pointer hover:shadow-inner hover:shadow-black"-->
-  <!--               v-if="token" @click="handleSignOut">-->
-  <!--            Cerrar Sesion-->
-  <!--          </div>-->
-  <!--        </li>-->
-  <!--        <li>-->
-  <!--          <NuxtLink to="signup"><div class="px-1 py-2 bg-indigo-600 text-white rounded-md shadow-2xl shadow-gray-600 text-center hover:bg-indigo-800 cursor-pointer hover:shadow-inner hover:shadow-black">Registro-->
-  <!--          </div></NuxtLink>-->
-  <!--        </li>-->
-  <!--      </ul>-->
-  <!--    </div>-->
-  <!--  </div>-->
 </template>
 
 <script>

@@ -1,19 +1,19 @@
 <template>
-  <div  class="flex items-center justify-center h-screen">
+  <div v-if="!isMobile"  class="flex items-center justify-center h-screen">
       <div class="">
         <loginform/>
       </div>
   </div>
+  <div v-if="isMobile">
+    <loginform/>
+  </div>
 </template>
 
-<script setup lang="ts">
-</script>
-<script lang="ts">
-export default {
-  name: "login",
+<script setup>
+const {isMobile} = useDevice();
 
-}
 </script>
+
 <style scoped>
 
 </style>

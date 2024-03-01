@@ -1,12 +1,15 @@
 <script setup lang="ts">
-
+const {isMobile} = useDevice();
 </script>
 
 <template>
-  <div  class="flex items-center justify-center h-screen">
+  <div v-if="!isMobile" class="flex items-center justify-center h-screen">
     <div>
       <signupform/>
     </div>
+  </div>
+  <div v-if="isMobile">
+    <signupform/>
   </div>
 </template>
 
