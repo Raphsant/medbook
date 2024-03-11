@@ -1,10 +1,12 @@
 <template>
   <div class="flex w-full justify-evenly items-center pb-6">
+    <img class="w-[16rem]" src="/img/vclogo.png" alt="">
+
     <LazyUHorizontalNavigation :links="links"
-                           class="flex w-fit justify-center items-center border-b border-gray-200 dark:border-gray-800"/>
+                               class="flex w-fit justify-center items-center border-b border-gray-200 dark:border-gray-800"/>
     <div class="flex justify-center items-center gap-4">
       <UButton @click="handleSignOut">Cerrar Sesion</UButton>
-      <UColorModeSelect class="w-28" />
+      <UColorModeSelect class="w-28"/>
     </div>
   </div>
 </template>
@@ -17,14 +19,11 @@ export default {
 }
 
 
-
-
-
 </script>
 <script setup>
 
 
-import { useAuthStore } from "~/store/auth";
+import {useAuthStore} from "~/store/auth";
 
 
 const authStore = useAuthStore();

@@ -2,7 +2,7 @@
 <div v-if="!isMobile" class="flex flex-col justify-between h-screen">
   <Navbar/>
   <slot/>
-  <UFooter :links="links">
+  <UFooter :links="footerLinks">
     <template  #left>
       <div class="flex flex-col">
         <div>
@@ -46,6 +46,14 @@ function onChange (index) {
   navigateTo(mapping[index])
 
 }
+
+const footerLinks = [ {
+  label: 'Panel de administrador',
+  to: '/admin/dashboard',
+  icon: 'i-heroicons-home'
+}]
+
+
 
 const links = [ {
   label: 'Inicio',

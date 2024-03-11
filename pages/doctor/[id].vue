@@ -14,7 +14,7 @@
         <div>Fechas Disponibles</div>
       </div>
       <UContainer
-          class="h-[22rem] grid-cols-3 justify-center items-center place-items-center grid">
+          class=" h-fit lg:h-[22rem] flex flex-col gap-4 py-2 lg:grid-cols-3 justify-center items-center place-items-center lg:grid">
         <UButton @click="selectedDate = {
               selectedDateStr: date,
               startTime: getTimeSlotsForDate(date, doctor.schedule).startTime,
@@ -29,7 +29,7 @@
       </UContainer>
       <UDivider label="Hora Disponible" v-if="selectedDate"/>
       <UContainer v-if="selectedDate"
-                  class="h-[16rem] grid-cols-4 justify-center items-center place-items-center grid">
+                  class="h-fit gap-4 grid grid-cols-2 py-2  lg:h-[16rem] lg:grid-cols-4 justify-center items-center place-items-center lg:grid">
 
         <UButton @click="selectedTime = slot" :variant="selectedTime === slot ? 'outline' : 'solid'"
                  class="text-center flex justify-center items-center w-[5.8rem]"
