@@ -1,5 +1,9 @@
 <script setup lang="ts">
 const {isMobile} = useDevice();
+definePageMeta
+({
+  layout: 'authform'
+})
 </script>
 
 <template>

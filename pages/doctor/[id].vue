@@ -19,7 +19,8 @@
               selectedDateStr: date,
               startTime: getTimeSlotsForDate(date, doctor.schedule).startTime,
               endTime: getTimeSlotsForDate(date, doctor.schedule).endTime
-            }" :key="date" :variant="selectedDate.selectedDateStr === date ? 'outline' : 'solid'"  class="w-[10rem] flex flex-col justify-center items-center"
+            }" :key="date" :variant="selectedDate.selectedDateStr === date ? 'outline' : 'solid'"
+                 class="w-[10rem] flex flex-col justify-center items-center"
                  v-for="date in upcomingAvailableDates">
           <div>{{ date }}</div>
           <div>{{ convertTo12Hours(getTimeSlotsForDate(date, doctor.schedule).startTime) }}</div>
@@ -30,13 +31,15 @@
       <UContainer v-if="selectedDate"
                   class="h-[16rem] grid-cols-4 justify-center items-center place-items-center grid">
 
-        <UButton @click="selectedTime = slot" :variant="selectedTime === slot ? 'outline' : 'solid'" class="text-center flex justify-center items-center w-[5.8rem]"
+        <UButton @click="selectedTime = slot" :variant="selectedTime === slot ? 'outline' : 'solid'"
+                 class="text-center flex justify-center items-center w-[5.8rem]"
                  v-for="slot in generateDateTimeSlots(selectedDate?.selectedDateStr, selectedDate.startTime, selectedDate.endTime, bookedApts)">
           <div> {{ convertTo12Hours(slot) }}</div>
         </UButton>
       </UContainer>
       <template v-if="selectedDate && selectedTime" #footer>
-        <UButton @click="handleClick" block color="gray">Agendar Cita</UButton>
+        <UButton v-if="!isLoading" @click="handleClick" block color="gray">Agendar Cita</UButton>
+        <UButton v-if="isLoading" loading @click="handleClick" block color="gray">Por favor espere...</UButton>
       </template>
     </UCard>
 
@@ -45,88 +48,21 @@
         <template #header>
           Cita Confirmada
         </template>
-
         <div class="text-center">{{ formatDateTime(confirmation.dateTime) }}</div>
+        <div class="text-center">Dr.{{ doctor.firstName }} {{ doctor.lastName }}</div>
+        <div class="text-center text-gray-400">{{ doctor.specialty }}</div>
+
 
         <template #footer>
-          <NuxtLink to="/myapts"><UButton block>Regresar a mis citas</UButton></NuxtLink>
+          <NuxtLink to="/myapts">
+            <UButton block>Regresar a mis citas</UButton>
+          </NuxtLink>
         </template>
       </UCard>
     </UModal>
 
   </div>
 
-
-  <!--  <div class="w-screen flex justify-center items-center gap-4 px-40 py-10">-->
-  <!--    <div class="bg-gradient-to-br from-white to-gray-200/40 w-2/3 flex flex-col justify-center items-center gap-4 py-10 px-8 shadow-gray-400 shadow-2xl rounded-lg">-->
-  <!--      <div class="flex justify-center items-center flex-col" v-if="!showConfirmation">-->
-  <!--        <div class="flex flex-col justify-center items-center w-full gap-2">-->
-  <!--          <div class="text-4xl">-->
-  <!--            Dr. {{ doctor.firstName }} {{ doctor.lastName }}-->
-  <!--          </div>-->
-  <!--          <div class="text-xl">-->
-  <!--            {{ doctor.specialty }}-->
-  <!--          </div>-->
-  <!--        </div>-->
-  <!--        <div class="p-5 w-[50rem] flex justify-center items-center flex-col gap-4">-->
-  <!--          <div>-->
-  <!--            Fechas Disponibles-->
-  <!--          </div>-->
-  <!--          <div class="grid grid-cols-4 gap-10">-->
-  <!--            <div-->
-  <!--                :class="{'shadow-inner shadow-black  bg-blue-500 font-bold': selectedDate.selectedDateStr === date}"-->
-  <!--                class=" w-[12rem] max-w-[12rem] px-1 py-2 bg-indigo-600 text-white rounded-md shadow-2xl shadow-gray-600 text-center hover:bg-indigo-800 cursor-pointer hover:shadow-inner hover:shadow-black"-->
-  <!--                v-for="date in upcomingAvailableDates" @click="selectedDate = {-->
-  <!--            selectedDateStr: date,-->
-  <!--            startTime: getTimeSlotsForDate(date, doctor.schedule).startTime,-->
-  <!--            endTime: getTimeSlotsForDate(date, doctor.schedule).endTime-->
-  <!--          }" :key="date">-->
-  <!--              <div>{{ date }}</div>-->
-  <!--              <div>{{ convertTo12Hours(getTimeSlotsForDate(date, doctor.schedule).startTime) }} - -->
-  <!--                {{ convertTo12Hours(getTimeSlotsForDate(date, doctor.schedule).endTime) }}-->
-  <!--              </div>-->
-  <!--            </div>-->
-  <!--          </div>-->
-  <!--        </div>-->
-  <!--        <div v-if="selectedDate"-->
-  <!--             class=" rounded-b-lg  p-5 justify-center items-center flex flex-col gap-4">-->
-  <!--          <div-->
-  <!--              class=" rounded-b-lg flex justify-center items-center flex-col gap-4 grid-cols-4 grid">-->
-  <!--            <div-->
-  <!--                :class="{'shadow-inner shadow-black  bg-blue-500 font-bold': selectedTime === slot}"-->
-  <!--                class="px-1 py-2 bg-indigo-600 text-white rounded-md shadow-2xl shadow-gray-600 text-center hover:bg-indigo-800 cursor-pointer hover:shadow-inner hover:shadow-black"-->
-  <!--                v-for="slot in generateDateTimeSlots(selectedDate?.selectedDateStr, selectedDate.startTime, selectedDate.endTime, bookedApts)"-->
-  <!--                @click="selectedTime = slot">-->
-  <!--              {{ convertTo12Hours(slot) }}-->
-  <!--            </div>-->
-  <!--          </div>-->
-  <!--          <div>-->
-  <!--            <button-->
-  <!--                class="px-4 py-2 bg-white text-black rounded-md shadow-2xl shadow-gray-600 text-center hover:bg-indigo-800 hover:text-white cursor-pointer hover:shadow-inner hover:shadow-black"-->
-  <!--                @click="handleClick">-->
-  <!--              <svg v-if="isLoading" class="animate-spin -ml-1 mr-3 h-5 w-5 text-indigo-500"-->
-  <!--                   xmlns="http://www.w3.org/2000/svg" fill="none"-->
-  <!--                   viewBox="0 0 24 24">-->
-  <!--                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>-->
-  <!--                <path class="opacity-75" fill="currentColor"-->
-  <!--                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>-->
-  <!--              </svg>-->
-  <!--              <div>{{ isLoading ? "Procesando..." : "Agendar Cita" }}</div>-->
-  <!--            </button>-->
-  <!--          </div>-->
-  <!--        </div>-->
-  <!--      </div>-->
-  <!--      <div v-if="showConfirmation" class="flex flex-col gap-4">-->
-  <!--        <div>-->
-  <!--          Cita Confirmada para el dia:-->
-  <!--          {{ formatDateTime(confirmation.dateTime) }}-->
-  <!--        </div>-->
-  <!--        <div class="px-1 py-2 bg-indigo-600 text-white rounded-md shadow-2xl shadow-gray-600 text-center hover:bg-indigo-800 cursor-pointer hover:shadow-inner hover:shadow-black">-->
-  <!--          <NuxtLink to="/"> Regresar a Mis Citas </NuxtLink>-->
-  <!--        </div>-->
-  <!--      </div>-->
-  <!--    </div>-->
-  <!--  </div>-->
 </template>
 
 <script setup>
@@ -243,7 +179,7 @@ function generateDateTimeSlots(dateString, startTime, endTime, appointments) {
     // Check if the time slot is not in any of the appointments
     let isSlotAvailable = !appointments.some(appointment => {
       let appointmentDate = new Date(appointment.dateTime);
-      appointmentDate.toLocaleString("es-ES",{timeZone: 'America/Chicago', hour12: true})
+      appointmentDate.toLocaleString("es-ES", {timeZone: 'America/Chicago', hour12: true})
       return slotDateTime.getTime() === appointmentDate.getTime();
     });
 
@@ -316,7 +252,7 @@ async function getApts() {
       // Convert the dateTime of each appointment to Chicago time
       const chicagoTimeZone = 'America/Chicago';
       res?.forEach(appointment => {
-        let chicagoTime = new Date(appointment.dateTime).toLocaleString('en-US', { timeZone: chicagoTimeZone });
+        let chicagoTime = new Date(appointment.dateTime).toLocaleString('en-US', {timeZone: chicagoTimeZone});
         appointment.dateTime = chicagoTime;
       });
 

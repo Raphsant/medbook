@@ -1,4 +1,6 @@
 <script setup>
+import formatPhoneNumber from "~/helper/formatPhoneNumber.js";
+
 const {isMobile} = useDevice();
 const signupForm = ref({
   firstName: "",
@@ -7,7 +9,8 @@ const signupForm = ref({
   email: "",
   username: "",
   password: "",
-  role: "User"
+  role: "user",
+  phone: ""
 
 })
 
@@ -18,7 +21,7 @@ async function signup() {
     isLoading.value = true;
     const res = await $fetch("https://postgresapp-e83cc2ceb04b.herokuapp.com/api/auth/signup", {
       method: "POST",
-      body: signupForm.value
+      body: {...signupForm.value, phone: formatPhoneNumber(signupForm.value.phone)}
     })
     await new Promise((r) => setTimeout(r, 1000))
     if (res) {
@@ -31,7 +34,9 @@ async function signup() {
   }
   console.log(signupForm.value)
 }
+
 const selected = ref(false)
+const isOpen = ref(false)
 
 </script>
 
@@ -59,6 +64,11 @@ const selected = ref(false)
         <UFormGroup label="Correo Electronico" name="email">
           <UInput v-model="signupForm.email"/>
         </UFormGroup>
+        <UFormGroup label="Numero Telefonico / Whatsapp " name="email">
+          <UInput v-model="signupForm.phone">
+            <template #trailing><span>🇻🇪</span></template>
+          </UInput>
+        </UFormGroup>
         <UFormGroup label="Contraseña" name="password">
           <UInput v-model="signupForm.password" type="password"/>
         </UFormGroup>
@@ -66,11 +76,30 @@ const selected = ref(false)
           <UButton type="submit">
             Entrar
           </UButton>
-          <UCheckbox v-model="selected" name="notifications" label="Acepto los terminos y condiciones" />
+          <div class="flex justify-center items-center gap-2">
+            <UCheckbox v-model="selected" name="notifications"/>
+            <span class="cursor-pointer underline underline-white" @click="isOpen = true" color="primary">Aceptar Terminos y condiciones</span>
+          </div>
         </div>
       </UForm>
-    </UCard>
+      <USlideover class="h-full items-center" v-model="isOpen">
+        <UDashboardCard>
+          <template #header>
+            Terminos y Condiciones
+          </template>
+          <div class="p-4 flex-1">
+            Al usar este servicio usted acepta que el Centro Clinico Vista Centro use su numero de telefono para
+            contactarlo mediante Whatsapp con informacion relevante a sus citas medicas. El Centro Clinico Vista
+            Centro y el sistema Medbook no vendera ni distribuira su informacion con ningun tercero bajo ninguna
+            circumstancia
+          </div>
+          <template #footer>
+            <UButton block @click="isOpen = false">Cerrar</UButton>
+          </template>
+        </UDashboardCard>
 
+      </USlideover>
+    </UCard>
 
 
   </div>
@@ -88,7 +117,7 @@ const selected = ref(false)
       </template>
       <UForm class="space-y-4" @submit="signup">
         <UFormGroup label="Nombre de Usuario">
-          <UInput size="xl" v-model="signupForm.username"  icon="i-heroicons-at-symbol" />
+          <UInput size="xl" v-model="signupForm.username" icon="i-heroicons-at-symbol"/>
         </UFormGroup>
         <UFormGroup label="Primer Nombre">
           <UInput size="xl" v-model="signupForm.firstName" icon="i-heroicons-user"/>

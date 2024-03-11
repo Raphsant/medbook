@@ -7,7 +7,7 @@ export default defineNuxtConfig({
     "@nuxt/ui",
     '@nuxtjs/fontaine',
     '@nuxtjs/google-fonts',
-    '@nuxtjs/device'
+    '@nuxtjs/device',
   ],
   //@ts-ignore
   browser: "firefox",

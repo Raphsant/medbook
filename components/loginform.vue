@@ -17,8 +17,11 @@
         </UFormGroup>
 
         <div class="flex gap-4">
-          <UButton type="submit">
+          <UButton v-if="!isLoading" type="submit">
             Entrar
+          </UButton>
+          <UButton v-if="isLoading" loading type="submit">
+            Entrando...
           </UButton>
           <NuxtLink to="/signup"><UButton class="text-md" variant="link"> Nuevo Usuario? Click aqui.</UButton></NuxtLink>
         </div>
@@ -70,6 +73,7 @@ import {useAuthStore} from "~/store/auth";
 import {storeToRefs} from 'pinia'
 import useSignInTS from "~/composables/useSignInTS";
 const {isMobile} = useDevice()
+const isLoading = ref(false);
 const authStore = useAuthStore();
 type Schema = InferType<typeof schema>
 const schema = object({
@@ -86,9 +90,11 @@ const state = ref({
 
 async function login(data: any) {
   try {
+    isLoading.value = true;
     console.log('triggered')
     await useSignInTS(state.value)
     await new Promise((r) => setTimeout(r, 1000))
+    isLoading.value = false;
     return navigateTo("/")
   } catch (e) {
     console.error(e)
@@ -96,6 +102,9 @@ async function login(data: any) {
     console.log(JSON.parse((JSON.stringify(authStore.getUser))));
   }
 }
+
+
+
 </script>
 
 <style>

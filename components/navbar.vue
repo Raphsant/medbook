@@ -1,6 +1,6 @@
 <template>
   <div class="flex w-full justify-evenly items-center pb-6">
-    <UHorizontalNavigation :links="links"
+    <LazyUHorizontalNavigation :links="links"
                            class="flex w-fit justify-center items-center border-b border-gray-200 dark:border-gray-800"/>
     <div class="flex justify-center items-center gap-4">
       <UButton @click="handleSignOut">Cerrar Sesion</UButton>
@@ -10,18 +10,26 @@
 </template>
 
 <script>
-import {useAuthStore} from "../store/auth";
+
 
 export default {
   name: "navbar"
 }
 
-const authStore = useAuthStore();
-const user = JSON.parse(JSON.stringify(authStore.getUser));
-console.log(user)
+
+
+
 
 </script>
 <script setup>
+
+
+import { useAuthStore } from "~/store/auth";
+
+
+const authStore = useAuthStore();
+const user = JSON.parse(JSON.stringify(authStore.getUser));
+console.log(user)
 
 const links = [{
   label: 'Inicio',

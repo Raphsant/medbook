@@ -61,10 +61,10 @@ function formatDateTime(dateTimeString) {
   return date.toLocaleString('es-ES', options);
 }
 
-const columns = [ {
+const columns = [{
   key: "dateTime",
   label: 'Fecha y Hora'
-},{
+}, {
   key: "doctor.specialty",
   label: "Especialidad"
 }, {
@@ -72,19 +72,32 @@ const columns = [ {
   label: 'Doctor'
 }]
 
+const page = ref(1)
+const pageCount = 5
+
+const rows = computed(() => {
+  return apts.value.slice((page.value - 1) * pageCount, (page.value) * pageCount)
+})
+
+
 </script>
 
 <template>
-<div class="w-screen flex justify-center items-center">
-  <div class="w-1/2">
-    <UCard>
-      <template #header>
-        <div class="text-2xl">Mis Citas</div>
-      </template>
-      <div>
-        <UTable :rows="apts" :columns="columns"/>
-      </div>
-    </UCard>
+  <div class="w-screen flex justify-center items-center">
+    <div class="w-1/2">
+      <UCard>
+        <template #header>
+          <div class="text-2xl">Mis Citas</div>
+        </template>
+        <div>
+          <UTable loading
+                  :loading-state="{ icon: 'i-heroicons-arrow-path-20-solid', label: 'Cargando...' }"
+                  :rows="rows" :columns="columns"/>
+          <div class="flex justify-end px-3 py-3.5 border-t border-gray-200 dark:border-gray-700">
+            <UPagination v-model="page" :page-count="pageCount" :total="apts.length"/>
+          </div>
+        </div>
+      </UCard>
+    </div>
   </div>
-</div>
 </template>
