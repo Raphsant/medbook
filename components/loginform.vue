@@ -1,5 +1,5 @@
 <template>
-<!--  Desktop view-->
+  <!--  Desktop view-->
   <div v-if="!isMobile">
     <UCard>
       <template #header>
@@ -7,9 +7,9 @@
           Bienvenido al Sistema De Citas Del Centro Clinico Vista Centro
         </div>
       </template>
-      <UForm  class="space-y-4" @submit="login" >
+      <UForm :schema="schema" :state="state" class="space-y-4" @submit="login">
         <UFormGroup label="Nombre de Usuario" name="username">
-          <UInput v-model="state.username"  />
+          <UInput v-model="state.username" />
         </UFormGroup>
 
         <UFormGroup label="Contraseña" name="password">
@@ -17,20 +17,20 @@
         </UFormGroup>
 
         <div class="flex gap-4">
-          <UButton v-if="!isLoading" type="submit">
-            Entrar
-          </UButton>
+          <UButton v-if="!isLoading" type="submit"> Entrar</UButton>
           <UButton v-if="isLoading" loading type="submit">
             Entrando...
           </UButton>
-          <NuxtLink to="/signup"><UButton class="text-md" variant="link"> Nuevo Usuario? Click aqui.</UButton></NuxtLink>
+          <NuxtLink to="/signup">
+            <UButton class="text-md" variant="link">
+              Nuevo Usuario? Click aqui.
+            </UButton>
+          </NuxtLink>
         </div>
       </UForm>
-
-
     </UCard>
   </div>
-<!--  Mobile View-->
+  <!--  Mobile View-->
   <div v-if="isMobile">
     <UCard>
       <template #header>
@@ -45,21 +45,22 @@
       </template>
       <UForm class="space-y-4" @submit="login">
         <UFormGroup label="Nombre de Usuario">
-          <UInput size="xl" v-model="state.username"  icon="i-heroicons-user" />
+          <UInput size="xl" v-model="state.username" icon="i-heroicons-user" />
         </UFormGroup>
         <UFormGroup label="Contraseña">
-          <UInput size="xl" v-model="state.password" icon="i-heroicons-key"/>
+          <UInput size="xl" v-model="state.password" icon="i-heroicons-key" />
         </UFormGroup>
         <UButton type="submit" block>Entrar</UButton>
       </UForm>
       <template #footer>
         <div class="flex flex-col justify-center items-center gap-4">
           <div class="text-sm text-center">
-            Al ingresar estas aceptando nuestros <span class="text-primary">terminos y condidiciones</span>
+            Al ingresar estas aceptando nuestros
+            <span class="text-primary">terminos y condidiciones</span>
           </div>
-          <NuxtLink class="text-primary text-xl font-bold" to="/signup"><div>
-            Nuevo Usuario? Click Aqui
-          </div></NuxtLink>
+          <NuxtLink class="text-primary text-xl font-bold" to="/signup">
+            <div>Nuevo Usuario? Click Aqui</div>
+          </NuxtLink>
         </div>
       </template>
     </UCard>
@@ -67,46 +68,43 @@
 </template>
 
 <script setup lang="ts">
-import { object, string, type InferType } from 'yup'
-
-import {useAuthStore} from "~/store/auth";
-import {storeToRefs} from 'pinia'
+import { useAuthStore } from "~/store/auth";
 import useSignInTS from "~/composables/useSignInTS";
-const {isMobile} = useDevice()
+import { z } from "zod";
+import type { FormSubmitEvent } from "#ui/types";
+
+const { isMobile } = useDevice();
 const isLoading = ref(false);
 const authStore = useAuthStore();
-type Schema = InferType<typeof schema>
-const schema = object({
-  email: string().required('Requerido.'),
-  password: string()
-      .min(2, 'Debe tener por lo menos 8 caracteres.')
-      .required('Requerido.')
-})
+type Schema = z.output<typeof schema>;
+const schema = z
+  .object({
+    username: z.string({
+      required_error: "Por favor introduzca su nombre de usuario",
+    }),
+    password: z.string({ required_error: "Por favor introduzca su clave" }),
+  })
+  .required();
 
 const state = ref({
   username: undefined,
-  password: undefined
-})
+  password: undefined,
+});
 
 async function login(data: any) {
   try {
     isLoading.value = true;
-    console.log('triggered')
-    await useSignInTS(state.value)
-    await new Promise((r) => setTimeout(r, 1000))
+    console.log("triggered");
+    await useSignInTS(state.value);
+    await new Promise((r) => setTimeout(r, 1000));
     isLoading.value = false;
-    return navigateTo("/")
+    return navigateTo("/");
   } catch (e) {
-    console.error(e)
+    console.error(e);
   } finally {
-    console.log(JSON.parse((JSON.stringify(authStore.getUser))));
+    console.log(JSON.parse(JSON.stringify(authStore.getUser)));
   }
 }
-
-
-
 </script>
 
-<style>
-
-</style>
+<style></style>

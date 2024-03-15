@@ -44,7 +44,7 @@ const docData = ref({
   id: "",
   firstName: "",
   lastName: "",
-  specialty: "Medicina Interna",
+  specialty: "",
   schedule: undefined,
   phone: "",
 })
@@ -141,7 +141,7 @@ async function uploadDoctor() {
       <UInput v-model="docData.phone"/>
     </UFormGroup>
     <UFormGroup label="Especialidad" name="specialty">
-      <UInput/>
+      <UInput v-model="docData.specialty"/>
     </UFormGroup>
     <UFormGroup>
       <div class="flex flex-col space-y-4">

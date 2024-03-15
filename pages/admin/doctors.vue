@@ -70,7 +70,12 @@ function handleDelection() {
 <template>
   <UDashboardPage>
     <UDashboardPanel grow>
-      <UDashboardNavbar title="Medicos">
+    <UDashboardNavbar title="Medicos">
+      <template #left>
+	<div>
+		Medicos | <span  class="text-md text-gray-500" >{{doctors.length}} Medicos</span>
+	</div>
+      </template>
         <template #right>
           <UInput
               ref="input"
