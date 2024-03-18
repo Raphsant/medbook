@@ -4,7 +4,12 @@
     <UCard>
       <template #header>
         <div>
-          Bienvenido al Sistema De Citas Del Centro Clinico Vista Centro
+          <div class="flex flex-col justify-center items-center">
+            <img class="w-[20rem]" src="/img/vclogo.png" alt="" />
+          </div>
+          <div>
+            Bienvenido al Sistema De Citas Del Centro Clinico Vista Centro
+          </div>
         </div>
       </template>
       <UForm :schema="schema" :state="state" class="space-y-4" @submit="login">
@@ -22,7 +27,7 @@
             Entrando...
           </UButton>
           <NuxtLink to="/signup">
-            <UButton class="text-md" variant="link">
+            <UButton class="text-md" variant="outline">
               Nuevo Usuario? Click aqui.
             </UButton>
           </NuxtLink>

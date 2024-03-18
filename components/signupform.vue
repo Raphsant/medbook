@@ -79,10 +79,15 @@ const isOpen = ref(false);
     <UCard>
       <template #header>
         <div>
-          Bienvenido al Sistema De Citas Del Centro Clinico Vista Centro
-        </div>
-        <div class="text-red-600 text-center" v-if="errorMessage">
-          Un error ha ocurrido, por favor intentelo de nuevo.
+          <div class="flex flex-col justify-center items-center">
+            <img class="w-[20rem]" src="/img/vclogo.png" alt="" />
+          </div>
+          <div>
+            Bienvenido al Sistema De Citas Del Centro Clinico Vista Centro
+          </div>
+          <div class="text-red-600 text-center" v-if="errorMessage">
+            Un error ha ocurrido, por favor intentelo de nuevo.
+          </div>
         </div>
       </template>
       <UForm
