@@ -110,7 +110,7 @@ const links = [
 
         <UDivider class="sticky bottom-0" />
 
-        <template #footer> </template>
+        <template #footer></template>
       </UDashboardSidebar>
     </UDashboardPanel>
 
