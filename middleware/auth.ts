@@ -11,12 +11,15 @@ export default defineNuxtRouteMiddleware((to, from) => {
 
   async function checkValidToken() {
     try {
-      const res = await $fetch("https://postgresapp-e83cc2ceb04b.herokuapp.com/api/auth/validate", {
-        method: "GET",
-        headers: {
-          "x-access-token": user.token,
+      const res = await $fetch(
+        "https://postgresapp-e83cc2ceb04b.herokuapp.com/api/auth/validate",
+        {
+          method: "GET",
+          headers: {
+            "x-access-token": user.token,
+          },
         },
-      });
+      );
       return res == "OK";
     } catch (e) {
       console.error(e);
