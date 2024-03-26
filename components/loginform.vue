@@ -10,6 +10,9 @@
           <div>
             Bienvenido al Sistema De Citas Del Centro Clinico Vista Centro
           </div>
+          <div class="text-red-600 text-md text-center" v-if="errorMessage">
+            {{ errorMessage }}
+          </div>
         </div>
       </template>
       <UForm :schema="schema" :state="state" class="space-y-4" @submit="login">
@@ -96,18 +99,31 @@ const state = ref({
   password: undefined,
 });
 
-async function login(data: any) {
+const errorMessage = ref("");
+
+async function login() {
   try {
     isLoading.value = true;
-    console.log("triggered");
-    await useSignInTS(state.value);
-    await new Promise((r) => setTimeout(r, 1000));
-    isLoading.value = false;
-    return navigateTo("/");
-  } catch (e) {
-    console.error(e);
-  } finally {
-    console.log(JSON.parse(JSON.stringify(authStore.getUser)));
+    const { error, pending, data } = useFetch(
+      "https://postgresapp-e83cc2ceb04b.herokuapp.com/api/auth/signin",
+      {
+        method: "POST",
+        watch: false,
+        body: state.value,
+        onResponseError({ error: any, response }) {
+          //@ts-ignore
+          errorMessage.value = response._data.error;
+        },
+        onResponse({ response }) {
+          authStore.addUser(response._data);
+          isLoading.value = false;
+          navigateTo("/");
+        },
+      },
+    );
+    if (!data) throw new Error("Ha ocurrido un error, intentelo mas tarde.");
+  } catch (e: any) {
+    errorMessage.value = e.message;
   }
 }
 </script>

@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-    <configuration default="false" name="client: chrome" type="JavascriptDebugType" uri="http://localhost:3000" useFirstLineBreakpoints="true">
+    <configuration default="false" name="client: chrome" type="JavascriptDebugType" uri="https://postgresapp-e83cc2ceb04b.herokuapp.com" useFirstLineBreakpoints="true">
         <method v="2" />
     </configuration>
 

@@ -1,4 +1,4 @@
-import {useAuthStore} from "~/store/auth.js";
+import { useAuthStore } from "~/store/auth.js";
 
 class User {
   id: number | undefined;
@@ -19,10 +19,13 @@ class User {
 export default async function (data: object) {
   const authStore: any = useAuthStore();
   try {
-    const res: User = await $fetch("https://postgresapp-e83cc2ceb04b.herokuapp.com/api/auth/signin", {
-      method: "POST",
-      body: data,
-    });
+    const res: User = await $fetch(
+      "https://postgresapp-e83cc2ceb04b.herokuapp.com/api/auth/signin",
+      {
+        method: "POST",
+        body: data,
+      },
+    );
     if (res) {
       console.log(res);
       authStore.addUser(res);

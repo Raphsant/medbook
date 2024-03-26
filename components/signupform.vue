@@ -31,6 +31,10 @@ const schema = z
       .min(
         11,
         "Su numero de telefono debe tener 11 characteres y empezar por 0414/0416 etc.",
+      )
+      .regex(
+        /^(0414|0424|0412|0416|0426)\d*$/,
+        "Su numero de telefono debe tener 11 characteres y empezar por 0414/0416 etc.",
       ),
     firstName: z.string({ required_error: "Por favor introduzca su nombre" }),
     lastName: z.string({ required_error: "Por favor introduzca su apellido" }),
@@ -124,6 +128,9 @@ const isOpen = ref(false);
         </UFormGroup>
         <div class="flex gap-4 justify-start items-center">
           <UButton :loading="isLoading" type="submit"> Entrar</UButton>
+          <NuxtLink to="/"
+            ><UButton color="gray" variant="solid">Regresar</UButton></NuxtLink
+          >
           <div class="flex justify-center items-center gap-2">
             <span
               class="cursor-pointer underline underline-white"

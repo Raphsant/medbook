@@ -1,4 +1,7 @@
-<script setup>
+<script setup lang="ts">
+//@ts-ignore
+import type { Period, Range } from "~/types";
+import { sub } from "date-fns";
 import { useDashboard } from "~/composables/useDashboard";
 import useAllApts from "~/composables/useAllApts";
 
@@ -16,6 +19,12 @@ const unconfirmedAppointments = aptsData.value.filter(
   (apt) => !apt.isConfirmed,
 );
 const { isNotificationsSlideoverOpen } = useDashboard();
+
+const range = ref<Range>({
+  start: sub(new Date(), { days: 14 }),
+  end: new Date(),
+});
+const period = ref<Period>("daily");
 </script>
 
 <template>
@@ -44,7 +53,17 @@ const { isNotificationsSlideoverOpen } = useDashboard();
           </UDropdown>
         </template>
       </UDashboardNavbar>
+      <UDashboardToolbar>
+        <template #left>
+          <!-- ~/components/home/HomeDateRangePicker.vue -->
+          <AdminHomeDateRangePicker v-model="range" class="-ml-2.5" />
+
+          <!-- ~/components/home/HomePeriodSelect.vue -->
+          <AdminHomePeriodSelect v-model="period" :range="range" />
+        </template>
+      </UDashboardToolbar>
       <UDashboardPanelContent>
+        <AdminHomeChart :period="period" :range="range" :apts="aptsData" />
         <div class="grid lg:grid-cols-2 lg:items-start gap-8 mt-8">
           <UDashboardCard
             class="w-fit"

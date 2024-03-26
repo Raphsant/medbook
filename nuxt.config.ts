@@ -1,28 +1,29 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  extends: ['@nuxt/ui-pro'],
+  extends: ["@nuxt/ui-pro"],
   modules: [
     "@pinia/nuxt",
     "@pinia-plugin-persistedstate/nuxt",
     "@nuxt/ui",
-    '@nuxtjs/fontaine',
-    '@nuxtjs/google-fonts',
-    '@nuxtjs/device',
+    "@nuxtjs/fontaine",
+    "@nuxtjs/google-fonts",
+    "@nuxtjs/device",
+    "@vueuse/nuxt",
   ],
   //@ts-ignore
   browser: "firefox",
   colorMode: {
-    preference: 'dark'
+    preference: "dark",
   },
   googleFonts: {
-    display: 'swap',
+    display: "swap",
     download: true,
     families: {
-      'DM+Sans': [400, 500, 600, 700]
-    }
+      "DM+Sans": [400, 500, 600, 700],
+    },
   },
   fontMetrics: {
-    fonts: ['DM Sans']
+    fonts: ["DM Sans"],
   },
   nitro: {
     // Nitro options
@@ -35,13 +36,13 @@ export default defineNuxtConfig({
     },
   },
   ui: {
-    icons: ['ph', 'simple-icons'],
+    icons: ["ph", "simple-icons"],
     //@ts-ignore
     notifications: {
       // Show toasts at the top right of the screen
-      position: 'top-0 bottom-auto'
-    }
-  }
+      position: "top-0 bottom-auto",
+    },
+  },
 });
 
 process.env.BROWSER = "firefox";
