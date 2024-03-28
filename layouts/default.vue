@@ -2,7 +2,7 @@
   <div v-if="!isMobile">
     <UHeader>
       <template #logo>
-        <img class="w-[16rem]" src="/img/vclogolight.png" alt=""
+        <img class="w-[16rem] mt-5" src="/img/vclogolight.png" alt=""
       /></template>
       <template #center>
         <LazyUHorizontalNavigation
