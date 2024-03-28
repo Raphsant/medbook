@@ -5,7 +5,7 @@
       <template #header>
         <div>
           <div class="flex flex-col justify-center items-center">
-            <img class="w-[20rem]" src="/img/vclogo.png" alt="" />
+            <img class="w-[20rem]" src="/img/vclogolight.png" alt="" />
           </div>
           <div>
             Bienvenido al Sistema De Citas Del Centro Clinico Vista Centro

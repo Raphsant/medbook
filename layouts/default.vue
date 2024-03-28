@@ -2,19 +2,22 @@
   <div v-if="!isMobile">
     <UHeader>
       <template #logo>
-        Centro Clinico<span class="text-primary">Vista Centro</span></template
-      >
+        <img class="w-[16rem]" src="/img/vclogolight.png" alt=""
+      /></template>
       <template #center>
         <LazyUHorizontalNavigation
           :links="links"
-          class="flex w-fit justify-center items-center border-b border-gray-200 dark:border-gray-800"
+          class="hidden lg:flex w-fit justify-center items-center border-b border-gray-200 dark:border-gray-800"
         />
       </template>
       <template #right>
-        <div class="flex justify-center items-center gap-4">
+        <div class="hidden lg:flex justify-center items-center gap-4">
           <UButton @click="handleSignOut">Cerrar Sesion</UButton>
           <UColorModeToggle />
         </div>
+      </template>
+      <template #panel>
+        <UNavigationTree :links="links" />
       </template>
     </UHeader>
     <!--    <Navbar />-->
