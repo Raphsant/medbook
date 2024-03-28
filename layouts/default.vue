@@ -31,7 +31,12 @@
             Copyright © Centro Clinico Vista Centro
             {{ new Date().getFullYear() }}
           </div>
-          <div class="text-md text-gray-500">Made by Raphsant</div>
+          <div class="text-md text-gray-500">
+            Made with 💚 by <span class="text-primary">Raphsant</span>
+          </div>
+          <div class="text-sm text-gray-500">
+            Medbook v<span class="text-primary">1.0.0</span>
+          </div>
         </div>
       </template>
 

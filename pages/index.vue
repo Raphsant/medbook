@@ -55,10 +55,11 @@ Cuando necesites respuestas sobre tu salud, sabes a donde ir
       <div class="w-full flex gap-5">
         <ULandingCard
           title="¿Donde encontrarnos?"
-          description="Veniam minim ipsum anim. Irure voluptate magna dolore id dolore ex quis sint sint et duis dolor enim fugiat."
+          description="Esquina el chorro a Dr Paul Centro Comercial gallo de oro piso 2 y 3."
           icon="i-heroicons-map"
           color="primary"
           orientation="horizontal"
+          to="https://www.google.com/maps/place/Centro+Cl%C3%ADnico+Vista+Centro/@10.5040329,-66.9122475,15z/data=!4m6!3m5!1s0x8c2a5ed121d63e91:0xe82aa5cee4f05815!8m2!3d10.5040329!4d-66.9122475!16s%2Fg%2F11c45tmp65?entry=ttu"
         >
           <img
             src="https://media.discordapp.net/attachments/684442343168147529/1213197591722856568/Untitled.png?ex=66070e4d&is=65f4994d&hm=32762eabd97ff3b033b6378beec433141a9752b17b3b61b5a03b36d89c5d6886&=&format=webp&quality=lossless"
