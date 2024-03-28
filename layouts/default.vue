@@ -1,7 +1,26 @@
 <template>
   <div v-if="!isMobile">
-    <Navbar />
-    <slot class="grow" />
+    <UHeader>
+      <template #logo>
+        Centro Clinico<span class="text-primary">Vista Centro</span></template
+      >
+      <template #center>
+        <LazyUHorizontalNavigation
+          :links="links"
+          class="flex w-fit justify-center items-center border-b border-gray-200 dark:border-gray-800"
+        />
+      </template>
+      <template #right>
+        <div class="flex justify-center items-center gap-4">
+          <UButton @click="handleSignOut">Cerrar Sesion</UButton>
+          <UColorModeToggle />
+        </div>
+      </template>
+    </UHeader>
+    <!--    <Navbar />-->
+    <UMain>
+      <slot />
+    </UMain>
     <UFooter :links="footerLinks">
       <template #left>
         <div class="flex flex-col">
@@ -48,7 +67,9 @@
         @click="isOpen = !isOpen"
         :ui="{ rounded: 'rounded-full' }"
         size="xl"
-        ><UIcon name="i-heroicons-bars-3" /> Menu
+      >
+        <UIcon name="i-heroicons-bars-3" />
+        Menu
       </UButton>
     </div>
   </div>
@@ -65,6 +86,7 @@ const isOpen = ref(false);
 const mapping = ["/", "/appointment", "/myapts", "/profile"];
 
 const { isMobile } = useDevice();
+
 function onChange(index) {
   navigateTo(mapping[index]);
 }
@@ -76,6 +98,18 @@ const footerLinks = [
     icon: "i-heroicons-home",
   },
 ];
+import { useAuthStore } from "~/store/auth";
+
+const authStore = useAuthStore();
+const user = JSON.parse(JSON.stringify(authStore.getUser));
+console.log(user);
+
+const { token } = user;
+
+function handleSignOut() {
+  authStore.$reset();
+  return navigateTo("/login");
+}
 
 const links = [
   {
