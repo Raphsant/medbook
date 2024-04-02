@@ -1,6 +1,11 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   extends: ["@nuxt/ui-pro"],
+  runtimeConfig: {
+    public: {
+      serverUri: "",
+    },
+  },
   modules: [
     "@pinia/nuxt",
     "@pinia-plugin-persistedstate/nuxt",

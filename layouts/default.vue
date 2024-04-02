@@ -1,8 +1,11 @@
 <template>
-  <div v-if="!isMobile">
+  <div>
     <UHeader>
       <template #logo>
-        <img class="w-[16rem] mt-5" src="/img/vclogolight.png" alt=""
+        <img
+          class="w-[12rem] lg:w-[16rem] lg:mt-5"
+          src="/img/vclogolight.png"
+          alt=""
       /></template>
       <template #center>
         <LazyUHorizontalNavigation
@@ -35,57 +38,22 @@
             Made with 💚 by <span class="text-primary">Raphsant</span>
           </div>
           <div class="text-sm text-gray-500">
-            Medbook v<span class="text-primary">1.0.0</span>
+            Aptsys v<span class="text-primary">1.0.0</span>
           </div>
         </div>
       </template>
 
       <template #right>
         <UButton
-          icon="i-simple-icons-x"
+          icon="i-simple-icons-instagram"
           color="gray"
           variant="ghost"
           to="https://x.com/nuxt_js"
           target="_blank"
         />
-        <UButton
-          icon="i-simple-icons-discord"
-          color="gray"
-          variant="ghost"
-          to="https://discord.com/invite/ps2h6QT"
-          target="_blank"
-        />
-        <UButton
-          icon="i-simple-icons-github"
-          color="gray"
-          variant="ghost"
-          to="https://github.com/nuxt/nuxt"
-          target="_blank"
-        />
       </template>
     </UFooter>
   </div>
-  <div
-    class="min-h-screen flex w-screen h-screen flex-col justify-around items-center px-1 mx-1 gap-20"
-    v-if="isMobile"
-  >
-    <slot class="pb-[50rem] h-screen overflow-y-auto" />
-    <div v-if="isMobile" class="fixed bottom-6 right-6 w-fit">
-      <UButton
-        @click="isOpen = !isOpen"
-        :ui="{ rounded: 'rounded-full' }"
-        size="xl"
-      >
-        <UIcon name="i-heroicons-bars-3" />
-        Menu
-      </UButton>
-    </div>
-  </div>
-  <UModal v-model="isOpen">
-    <div class="p-4 h-fit flex justify-center items-center">
-      <UNavigationLinks @click="isOpen = !isOpen" :links="links" />
-    </div>
-  </UModal>
 </template>
 
 <script setup lang="ts">

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!isMobile">
+  <div>
     <UContainer class="w-full space-y-2.5">
       <ULandingHero
         title="
@@ -68,16 +68,15 @@ Cuando necesites respuestas sobre tu salud, sabes a donde ir
         </ULandingCard>
       </div>
       <LandingFaqAccordion />
-      <ULandingCTA
-        title="Una atención médica centrada en ti y los tuyos"
-        description=""
-      >
+      <ULandingCTA title="Una atención médica centrada en ti y los tuyos">
         <div class="flex justify-center items-center w-full space-x-3.5">
           <img
             src="https://cdn.discordapp.com/attachments/684442343168147529/1222289572445290599/Conocenos-ccvc.jpg?ex=6615acdf&is=660337df&hm=862b9fabb853d902274756b96082514699105b51f77f9b58d287d08a9a00c3a0&"
-            class="w-1/2 rounded-md shadow-xl ring-1 ring-gray-300 dark:ring-gray-700"
+            class="w-fit lg:w-1/2 rounded-md shadow-xl ring-1 ring-gray-300 dark:ring-gray-700"
           />
-          <div class="w-1/2 space-y-6">
+        </div>
+        <template #description>
+          <div class="space-y-6">
             <p>
               Nuestra prioridad son los pacientes, es por ellos que nos
               esforzamos día a día para que reciban una atención respetuosa,
@@ -96,16 +95,13 @@ Cuando necesites respuestas sobre tu salud, sabes a donde ir
               los servicios accesibles son los que nos destacan día tras día.
             </p>
           </div>
-        </div>
+        </template>
       </ULandingCTA>
     </UContainer>
-    <LandingInsuranceModal v-model="isInsuranceModalOpen" />
   </div>
 </template>
 
 <script setup>
-const { isMobile } = useDevice();
-const isInsuranceModalOpen = ref(false);
 definePageMeta({
   middleware: "auth",
 });

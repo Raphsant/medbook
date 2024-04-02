@@ -1,108 +1,108 @@
 <template>
-  <div class="w-screen flex justify-center items-center">
-    <UCard class="w-1/2">
-      <template #header>
-        <div class="text-3xl">
-          Dr.{{ doctor.firstName }} {{ doctor.lastName }}
-        </div>
-        <div class="text-gray-400">
+  <UContainer>
+    <UPage>
+      <UPageHeader>
+        <template #headline>Agendar Cita</template>
+        <template #title
+          >Dr.{{ doctor.firstName }} {{ doctor.lastName }}
+        </template>
+        <template #description>
           {{ doctor.specialty }}
-        </div>
-      </template>
-      <div class="flex justify-center items-center w-full pb-4">
-        <div>Fechas Disponibles</div>
-      </div>
-      <UContainer
-        class="h-fit lg:h-[22rem] flex flex-col gap-4 py-2 lg:grid-cols-3 justify-center items-center place-items-center lg:grid"
-      >
-        <UButton
-          @click="
-            selectedDate = {
-              selectedDateStr: date,
-              startTime: getTimeSlotsForDate(date, doctor.schedule).startTime,
-              endTime: getTimeSlotsForDate(date, doctor.schedule).endTime,
-            }
-          "
+        </template>
+      </UPageHeader>
+
+      <div class="space-y-10 mt-10">
+        <UPageCard
           :key="date"
           :variant="selectedDate.selectedDateStr === date ? 'outline' : 'solid'"
-          class="w-[10rem] flex flex-col justify-center items-center"
           v-for="date in upcomingAvailableDates"
         >
-          <div>{{ date }}</div>
-          <div>
-            {{
-              convertTo12Hours(
+          <template #header>
+            <div class="text-xl font-bold capitalize">{{ date }}</div>
+          </template>
+          <template #description>
+            <div class="w-fit flex items-center space-x-1 text-lg">
+              <div>
+                {{
+                  convertTo12Hours(
+                    getTimeSlotsForDate(date, doctor.schedule).startTime,
+                  )
+                }}
+              </div>
+              <span> - </span>
+              <div>
+                {{
+                  convertTo12Hours(
+                    getTimeSlotsForDate(date, doctor.schedule).endTime,
+                  )
+                }}
+              </div>
+            </div>
+          </template>
+          <div class="grid-cols-2 lg:grid-cols-4 grid gap-4 mt-3">
+            <UButton
+              @click="
+                () => {
+                  selectedDate = {
+                    selectedDateStr: date,
+                  };
+                  selectedTime = slot;
+                }
+              "
+              :variant="
+                selectedTime === slot && selectedDate.selectedDateStr == date
+                  ? 'soft'
+                  : 'solid'
+              "
+              class="text-center flex justify-center items-center w-[5.8rem]"
+              v-for="slot in generateDateTimeSlots(
+                date,
                 getTimeSlotsForDate(date, doctor.schedule).startTime,
-              )
-            }}
-          </div>
-          <div>
-            {{
-              convertTo12Hours(
                 getTimeSlotsForDate(date, doctor.schedule).endTime,
-              )
-            }}
+                bookedApts,
+              )"
+            >
+              <div>{{ convertTo12Hours(slot) }}</div>
+            </UButton>
           </div>
-        </UButton>
-      </UContainer>
-      <UDivider label="Hora Disponible" v-if="selectedDate" />
-      <UContainer
-        v-if="selectedDate"
-        class="h-fit gap-4 grid grid-cols-2 py-2 lg:h-[16rem] lg:grid-cols-4 justify-center items-center place-items-center lg:grid"
-      >
-        <UButton
-          @click="selectedTime = slot"
-          :variant="selectedTime === slot ? 'outline' : 'solid'"
-          class="text-center flex justify-center items-center w-[5.8rem]"
-          v-for="slot in generateDateTimeSlots(
-            selectedDate?.selectedDateStr,
-            selectedDate.startTime,
-            selectedDate.endTime,
-            bookedApts,
-          )"
+          <template #footer>
+            <UButton
+              :disabled="selectedDate.selectedDateStr !== date"
+              @click="handleClick"
+              class="text-sm"
+              :variant="
+                selectedDate.selectedDateStr == date ? 'solid' : 'outline'
+              "
+              >Seleccionar esta Fecha
+            </UButton>
+          </template>
+        </UPageCard>
+      </div>
+      <UModal v-model="showConfirmation">
+        <UCard
+          :ui="{
+            ring: '',
+            divide: 'divide-y divide-gray-100 dark:divide-gray-800',
+          }"
         >
-          <div>{{ convertTo12Hours(slot) }}</div>
-        </UButton>
-      </UContainer>
-      <template v-if="selectedDate && selectedTime" #footer>
-        <UButton v-if="!isLoading" @click="handleClick" block color="gray"
-          >Agendar Cita</UButton
-        >
-        <UButton
-          v-if="isLoading"
-          loading
-          @click="handleClick"
-          block
-          color="gray"
-          >Por favor espere...</UButton
-        >
-      </template>
-    </UCard>
+          <template #header> Cita Confirmada</template>
+          <div class="text-center">
+            {{ formatDateTime(confirmation.dateTime) }}
+          </div>
+          <div class="text-center">
+            Dr.{{ doctor.firstName }} {{ doctor.lastName }}
+          </div>
+          <div class="text-center text-gray-400">{{ doctor.specialty }}</div>
 
-    <UModal v-model="showConfirmation">
-      <UCard
-        :ui="{
-          ring: '',
-          divide: 'divide-y divide-gray-100 dark:divide-gray-800',
-        }"
-      >
-        <template #header> Cita Confirmada </template>
-        <div class="text-center">
-          {{ formatDateTime(confirmation.dateTime) }}
-        </div>
-        <div class="text-center">
-          Dr.{{ doctor.firstName }} {{ doctor.lastName }}
-        </div>
-        <div class="text-center text-gray-400">{{ doctor.specialty }}</div>
-
-        <template #footer>
-          <NuxtLink to="/myapts">
-            <UButton block>Regresar a mis citas</UButton>
-          </NuxtLink>
-        </template>
-      </UCard>
-    </UModal>
-  </div>
+          <template #footer>
+            <NuxtLink to="/myapts">
+              <UButton block>Regresar a mis citas</UButton>
+            </NuxtLink>
+          </template>
+        </UCard>
+      </UModal>
+    </UPage>
+  </UContainer>
 </template>
 
 <script setup>

@@ -62,37 +62,56 @@ async function updateUserProfile() {
 </script>
 
 <template>
-  <div class="w-screen flex justify-center items-center">
-    <UCard class="w-1/4">
-      <template #header class="flex justify-center items-center">
-        <div class="flex justify-center items-center">
-          <div class="w-full text-center text-2xl">Ficha del paciente</div>
-          <UButton
-            @click="isEditFormActive = true"
-            icon="i-heroicons-pencil-square"
-            size="sm"
-            color="primary"
-            variant="outline"
-            label="Editar"
-            :trailing="false"
-          />
-        </div>
+  <UContainer class="my-10">
+    <UPage>
+      <template #left></template>
+
+      <UPageBody>
+        <UCard class="">
+          <template #header class="flex justify-center items-center">
+            <div class="flex justify-center items-center">
+              <div class="w-full text-center text-2xl">Ficha del paciente</div>
+              <UButton
+                @click="isEditFormActive = true"
+                icon="i-heroicons-pencil-square"
+                size="sm"
+                color="primary"
+                variant="outline"
+                label="Editar"
+                :trailing="false"
+              />
+            </div>
+          </template>
+          <UContainer
+            class="flex flex-col justify-center items-center gap-5 text-xl"
+          >
+            <UDivider label="Nombre Completo" />
+            <lazydiv>
+              {{
+                userInfo
+                  ? userInfo.firstName + " " + userInfo.lastName
+                  : "Loading"
+              }}
+            </lazydiv>
+            <UDivider label="Cedula de Identidad" />
+            <div>{{ userInfo ? userInfo.id : "Loading" }}</div>
+            <UDivider label="Correo Electronico" />
+            <div>{{ userInfo ? userInfo.email : "Loading" }}</div>
+          </UContainer>
+        </UCard>
+      </UPageBody>
+      <template #right>
+        <UPageCard class="w-full">
+          <template #title
+            ><span class="text-md">Nuestro Horario</span></template
+          >
+          <template #description
+            ><p>Lunes a Viernes</p>
+            <p>7am - 5pm</p></template
+          >
+        </UPageCard>
       </template>
-      <UContainer
-        class="flex flex-col justify-center items-center gap-5 text-xl"
-      >
-        <UDivider label="Nombre Completo" />
-        <lazydiv>
-          {{
-            userInfo ? userInfo.firstName + " " + userInfo.lastName : "Loading"
-          }}
-        </lazydiv>
-        <UDivider label="Cedula de Identidad" />
-        <div>{{ userInfo ? userInfo.id : "Loading" }}</div>
-        <UDivider label="Correo Electronico" />
-        <div>{{ userInfo ? userInfo.email : "Loading" }}</div>
-      </UContainer>
-    </UCard>
+    </UPage>
     <UModal v-model="isEditFormActive">
       <UCard>
         <template #header> Editar Usuario</template>
@@ -112,7 +131,7 @@ async function updateUserProfile() {
         </template>
       </UCard>
     </UModal>
-  </div>
+  </UContainer>
 
   <!--  <div class="w-screen p-10 flex justify-center items-center">-->
   <!--    <div-->
