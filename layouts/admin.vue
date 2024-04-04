@@ -90,7 +90,7 @@ const links = [
       <UDashboardNavbar :ui="{ left: 'flex-1' }">
         <template #left>
           <NuxtLink to="/">
-            <img src="/img/vclogo.png" alt="" />
+            <img src="/img/vclogolight.png" alt="" />
           </NuxtLink>
         </template>
       </UDashboardNavbar>
