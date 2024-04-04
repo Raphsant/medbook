@@ -5,7 +5,6 @@
         title="
 Cuando necesites respuestas sobre tu salud, sabes a donde ir
 "
-        description="Somos especialistas en atención de prevención y diagnósticos"
         orientation="horizontal"
         :links="[
           {
@@ -17,6 +16,14 @@ Cuando necesites respuestas sobre tu salud, sabes a donde ir
           },
         ]"
       >
+        <template #description>
+          <div class="text-xl">
+            <p>Somos especialistas en atención de prevención y diagnósticos</p>
+            <p class="text-primary">
+              Horarios de atención de lunes a viernes de 07:00 am a 04:00 pm
+            </p>
+          </div>
+        </template>
         <img
           src="https://investorplace.com/wp-content/uploads/2019/08/healthcare1600d.jpg"
           class="w-full rounded-md shadow-xl ring-1 ring-gray-300 dark:ring-gray-700"
