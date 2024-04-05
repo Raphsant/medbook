@@ -102,6 +102,10 @@ export default {
 <script setup>
 import { useAuthStore } from "../store/auth";
 
+definePageMeta({
+  middleware: "auth",
+});
+
 const doctors = await useDoctors();
 const store = useAuthStore();
 const specialtyList = [
