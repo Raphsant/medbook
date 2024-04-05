@@ -15,10 +15,10 @@
       <!--      </template>-->
       <template #right>
         <div class="hidden lg:flex justify-center items-center gap-4">
-          <UButton v-if="userRef.token" @click="handleSignOut"
+          <UButton v-if="userRef?.token" @click="handleSignOut"
             >Cerrar Sesion</UButton
           >
-          <NuxtLink v-if="!userRef.token" to="/login"
+          <NuxtLink v-if="!userRef?.token" to="/login"
             ><UButton>Iniciar Sesion</UButton></NuxtLink
           >
           <UColorModeToggle />
