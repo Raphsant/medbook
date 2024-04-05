@@ -3,6 +3,10 @@ import { ref, onMounted } from "vue";
 import { useAuthStore } from "~/store/auth";
 import { date } from "yup";
 
+definePageMeta({
+  middleware: "auth",
+});
+
 const authStore = useAuthStore();
 const config = useRuntimeConfig();
 const user = JSON.parse(JSON.stringify(authStore.getUser));
