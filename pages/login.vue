@@ -1,23 +1,17 @@
 <template>
-  <div v-if="!isMobile" class="flex items-center justify-center h-screen">
-    <div class="">
-      <loginform/>
-    </div>
-  </div>
-  <div v-if="isMobile">
-    <loginform/>
+  <div>
+    <UContainer class="my-10">
+      <UPage>
+        <template #left></template>
+        <div class="flex justify-center items-center">
+          <loginform />
+        </div>
+        <template #right></template>
+      </UPage>
+    </UContainer>
   </div>
 </template>
 
-<script setup>
-definePageMeta
-({
-  layout: 'authform'
-})
-const {isMobile} = useDevice();
+<script setup></script>
 
-</script>
-
-<style scoped>
-
-</style>
+<style scoped></style>

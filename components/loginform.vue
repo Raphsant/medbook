@@ -1,78 +1,46 @@
 <template>
-  <!--  Desktop view-->
-  <div v-if="!isMobile">
-    <UCard>
-      <template #header>
+  <UCard class="max-w-sm w-full">
+    <UAuthForm
+      :fields="fields"
+      :loading="isLoading"
+      :schema="schema"
+      align="top"
+      :ui="{
+        base: 'text-center',
+        footer: 'text-center',
+        default: { submitButton: { label: 'Ingresar' } },
+      }"
+      @submit="login"
+    >
+      <template #title
+        ><img src="/img/vclogolight.png" alt="" />
         <div>
-          <div class="flex flex-col justify-center items-center">
-            <img class="w-[20rem]" src="/img/vclogolight.png" alt="" />
-          </div>
-          <div>
-            Bienvenido al Sistema De Citas Del Centro Clinico Vista Centro
-          </div>
-          <div class="text-red-600 text-md text-center" v-if="errorMessage">
-            {{ errorMessage }}
-          </div>
-        </div>
+          Bienvenido al sistema Aptsys del Centro Clinico Vista Centro
+        </div></template
+      >
+      <template #description>
+        Nuevo usuario?
+        <NuxtLink to="/signup" class="text-primary font-medium"
+          >Registrate aqui</NuxtLink
+        >
+        .
       </template>
-      <UForm :schema="schema" :state="state" class="space-y-4" @submit="login">
-        <UFormGroup label="Nombre de Usuario" name="username">
-          <UInput v-model="state.username" />
-        </UFormGroup>
-
-        <UFormGroup label="Contraseña" name="password">
-          <UInput v-model="state.password" type="password" />
-        </UFormGroup>
-
-        <div class="flex gap-4">
-          <UButton v-if="!isLoading" type="submit"> Entrar</UButton>
-          <UButton v-if="isLoading" loading type="submit">
-            Entrando...
-          </UButton>
-          <NuxtLink to="/signup">
-            <UButton class="text-md" variant="outline">
-              Nuevo Usuario? Click aqui.
-            </UButton>
-          </NuxtLink>
-        </div>
-      </UForm>
-    </UCard>
-  </div>
-  <!--  Mobile View-->
-  <div v-if="isMobile">
-    <UCard>
-      <template #header>
-        <div class="w-full flex flex-col gap-1 justify-center items-center">
-          <div class="text-lg text-gray-500 text-center">
-            Bienvenido al sistema Medbook de
-          </div>
-          <div class="text-primary text-center">
-            Centro Clinico Vista Centro
-          </div>
-        </div>
+      <template #validation>
+        <UAlert
+          color="red"
+          icon="i-heroicons-information-circle-20-solid"
+          title="Error signing in"
+        />
       </template>
-      <UForm class="space-y-4" @submit="login">
-        <UFormGroup label="Nombre de Usuario">
-          <UInput size="xl" v-model="state.username" icon="i-heroicons-user" />
-        </UFormGroup>
-        <UFormGroup label="Contraseña">
-          <UInput size="xl" v-model="state.password" icon="i-heroicons-key" />
-        </UFormGroup>
-        <UButton type="submit" block>Entrar</UButton>
-      </UForm>
       <template #footer>
-        <div class="flex flex-col justify-center items-center gap-4">
-          <div class="text-sm text-center">
-            Al ingresar estas aceptando nuestros
-            <span class="text-primary">terminos y condidiciones</span>
-          </div>
-          <NuxtLink class="text-primary text-xl font-bold" to="/signup">
-            <div>Nuevo Usuario? Click Aqui</div>
-          </NuxtLink>
-        </div>
+        Al registrarse usted esta aceptando nuestros
+        <NuxtLink to="/" class="text-primary font-medium"
+          >Terminos y Condiciones</NuxtLink
+        >
+        .
       </template>
-    </UCard>
-  </div>
+    </UAuthForm>
+  </UCard>
 </template>
 
 <script setup lang="ts">
@@ -80,8 +48,20 @@ import { useAuthStore } from "~/store/auth";
 import useSignInTS from "~/composables/useSignInTS";
 import { z } from "zod";
 import type { FormSubmitEvent } from "#ui/types";
-
-const { isMobile } = useDevice();
+const fields = [
+  {
+    name: "username",
+    type: "text",
+    label: "Nombre de Usuario",
+    placeholder: "Introduzca su nombre de usuario",
+  },
+  {
+    name: "password",
+    label: "contraseña",
+    type: "password",
+    placeholder: "Introduzca su contraseña",
+  },
+];
 const isLoading = ref(false);
 const authStore = useAuthStore();
 type Schema = z.output<typeof schema>;
@@ -101,7 +81,7 @@ const state = ref({
 
 const errorMessage = ref("");
 
-async function login() {
+async function login(loginData: any) {
   try {
     isLoading.value = true;
     const { error, pending, data } = useFetch(
@@ -109,7 +89,10 @@ async function login() {
       {
         method: "POST",
         watch: false,
-        body: state.value,
+        body: {
+          ...loginData,
+          username: loginData.username?.toLowerCase(),
+        },
         onResponseError({ error: any, response }) {
           //@ts-ignore
           errorMessage.value = response._data.error;
