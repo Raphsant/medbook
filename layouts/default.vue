@@ -1,21 +1,26 @@
 <template>
   <div>
-    <UHeader>
+    <UHeader :links="links">
       <template #logo>
         <img
           class="w-[12rem] lg:w-[16rem] lg:mt-5"
           src="/img/vclogolight.png"
           alt=""
       /></template>
-      <template #center>
-        <LazyUHorizontalNavigation
-          :links="links"
-          class="hidden lg:flex w-fit justify-center items-center border-b border-gray-200 dark:border-gray-800"
-        />
-      </template>
+      <!--      <template #center>-->
+      <!--        <LazyUHorizontalNavigation-->
+      <!--          :links="links"-->
+      <!--          class="hidden lg:flex w-fit justify-center items-center border-b border-gray-200 dark:border-gray-800"-->
+      <!--        />-->
+      <!--      </template>-->
       <template #right>
         <div class="hidden lg:flex justify-center items-center gap-4">
-          <UButton @click="handleSignOut">Cerrar Sesion</UButton>
+          <UButton v-if="userRef.token" @click="handleSignOut"
+            >Cerrar Sesion</UButton
+          >
+          <NuxtLink v-if="!userRef.token" to="/login"
+            ><UButton>Iniciar Sesion</UButton></NuxtLink
+          >
           <UColorModeToggle />
         </div>
       </template>
@@ -79,6 +84,11 @@ import { useAuthStore } from "~/store/auth";
 const authStore = useAuthStore();
 const user = JSON.parse(JSON.stringify(authStore.getUser));
 console.log(user);
+const userRef = ref("");
+
+onMounted(() => {
+  userRef.value = user;
+});
 
 const { token } = user;
 
@@ -94,14 +104,22 @@ const links = [
     icon: "i-heroicons-home",
   },
   {
-    label: "Agendar Cita",
-    to: "/appointment",
+    label: "Citas",
     icon: "i-heroicons-pencil",
-  },
-  {
-    label: "Mis Citas",
-    to: "/myapts",
-    icon: "i-heroicons-bookmark-square",
+    children: [
+      {
+        label: "Agendar Cita",
+        to: "/appointment",
+        icon: "i-heroicons-ticket",
+        description: "Agendar cita con uno de nuestros medicos",
+      },
+      {
+        label: "Mis Citas",
+        to: "/myapts",
+        icon: "i-heroicons-bookmark-square",
+        description: "Ver el estado actual de tus citas",
+      },
+    ],
   },
   {
     label: "Perfil",
