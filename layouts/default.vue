@@ -21,8 +21,8 @@
           <NuxtLink v-if="!userRef?.token" to="/login"
             ><UButton>Iniciar Sesion</UButton></NuxtLink
           >
-          <UColorModeToggle />
         </div>
+        <UColorModeToggle />
       </template>
       <template #panel>
         <UNavigationTree :links="links" />
