@@ -1,6 +1,8 @@
 <script setup>
 import { useAuthStore } from "~/store/auth";
-
+definePageMeta({
+  middleware: "auth",
+});
 const authStore = useAuthStore();
 const user = JSON.parse(JSON.stringify(authStore.getUser));
 const userInfo = ref(await getUserProfile());
