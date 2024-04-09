@@ -73,23 +73,31 @@ Cuando necesites respuestas sobre tu salud, sabes a donde ir
         </div>
       </ULandingCTA>
       <div class="w-full flex gap-5">
-        <ULandingCard
-          title="¿Donde encontrarnos?"
-          description="Nos puedes encontrar en la esquina El Chorro a Dr Paul, en el Centro Comercial Gallo de Oro piso 2 y 3."
-          icon="i-heroicons-map"
-          color="primary"
-          orientation="horizontal"
+        <NuxtLink
+          target="_blank"
           to="https://www.google.com/maps/place/Centro+Cl%C3%ADnico+Vista+Centro/@10.5040329,-66.9122475,15z/data=!4m6!3m5!1s0x8c2a5ed121d63e91:0xe82aa5cee4f05815!8m2!3d10.5040329!4d-66.9122475!16s%2Fg%2F11c45tmp65?entry=ttu"
         >
-          <div class="flex space-x-2">
-            <img src="/img/image.webp" class="w-4/5 object-cover rounded-md" />
-            <img
-              src="/img/gallo.webp"
-              class="w-4/5 object-cover rounded-md"
-              alt=""
-            />
-          </div>
-        </ULandingCard>
+          <ULandingCard
+            title="¿Donde encontrarnos?"
+            description="Nos puedes encontrar en la esquina El Chorro a Dr Paul, en el Centro Comercial Gallo de Oro piso 2 y 3."
+            icon="i-heroicons-map"
+            color="primary"
+            orientation="horizontal"
+          >
+            <div class="flex space-x-2">
+              <img
+                src="/img/image.webp"
+                class="w-4/5 object-cover rounded-md"
+                alt="google map location"
+              />
+              <!--            <img-->
+              <!--              src="/img/gallo.webp"-->
+              <!--              class="w-4/5 object-cover rounded-md"-->
+              <!--              alt=""-->
+              <!--            />-->
+            </div>
+          </ULandingCard>
+        </NuxtLink>
       </div>
       <LandingFaqAccordion />
       <ULandingCTA title="Una atención médica centrada en ti y los tuyos">
