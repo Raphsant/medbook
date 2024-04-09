@@ -43,7 +43,9 @@ Cuando necesites respuestas sobre tu salud, sabes a donde ir
         <template #title>
           <div class="text-primary">¿Por qué escogernos?</div>
         </template>
-        <div class="flex w-full justify-center items-center text-center">
+        <div
+          class="flex flex-col lg:flex-row w-full space-y-4.5 justify-center items-center text-center"
+        >
           <div class="flex w-full flex-col justify-center items-center">
             <UIcon
               class="w-20 h-20 flex-shrink-0"
@@ -72,18 +74,25 @@ Cuando necesites respuestas sobre tu salud, sabes a donde ir
           </div>
         </div>
       </ULandingCTA>
+      <LandingFaqAccordion />
       <div class="w-full flex gap-5">
         <NuxtLink
           target="_blank"
           to="https://www.google.com/maps/place/Centro+Cl%C3%ADnico+Vista+Centro/@10.5040329,-66.9122475,15z/data=!4m6!3m5!1s0x8c2a5ed121d63e91:0xe82aa5cee4f05815!8m2!3d10.5040329!4d-66.9122475!16s%2Fg%2F11c45tmp65?entry=ttu"
         >
-          <ULandingCard
-            title="¿Donde encontrarnos?"
-            description="Nos puedes encontrar en la esquina El Chorro a Dr Paul, en el Centro Comercial Gallo de Oro piso 2 y 3."
-            icon="i-heroicons-map"
-            color="primary"
-            orientation="horizontal"
-          >
+          <ULandingCard color="primary" orientation="horizontal">
+            <template #title>
+              <div class="text-3xl">
+                <UIcon name="i-heroicons-map" />
+                <div class="text-primary">¿Donde encontrarnos?</div>
+              </div>
+            </template>
+            <template #description>
+              <div class="text-xl">
+                Nos puedes encontrar en la esquina El Chorro a Dr Paul, en el
+                Centro Comercial Gallo de Oro piso 2 y 3.
+              </div>
+            </template>
             <div class="flex space-x-2">
               <img
                 src="/img/image.webp"
@@ -99,8 +108,12 @@ Cuando necesites respuestas sobre tu salud, sabes a donde ir
           </ULandingCard>
         </NuxtLink>
       </div>
-      <LandingFaqAccordion />
-      <ULandingCTA title="Una atención médica centrada en ti y los tuyos">
+      <ULandingCTA>
+        <template #title>
+          <div class="text-primary">
+            Una atención médica centrada en ti y los tuyos
+          </div>
+        </template>
         <div class="flex justify-center items-center w-full space-x-3.5">
           <img
             src="https://cdn.discordapp.com/attachments/684442343168147529/1222289572445290599/Conocenos-ccvc.jpg?ex=6615acdf&is=660337df&hm=862b9fabb853d902274756b96082514699105b51f77f9b58d287d08a9a00c3a0&"
@@ -129,6 +142,21 @@ Cuando necesites respuestas sobre tu salud, sabes a donde ir
           </div>
         </template>
       </ULandingCTA>
+      <ULandingCard>
+        <template #title>
+          <div class="flex justify-center items-center space-x-3.5">
+            <UIcon class="text-3xl" name="i-heroicons-phone" />
+            <div class="text-3xl text-primary">Contactanos!</div>
+          </div>
+        </template>
+        <template #description>
+          <div class="text-xl">
+            Si necesitas contactarte con nosotros para obtener ayuda acerca el
+            sistema de citas o cualquier otra duda que tengas, puedes llamarnos
+            al: <span class="text-primary">0212-5423002</span>
+          </div>
+        </template>
+      </ULandingCard>
     </UContainer>
   </div>
 </template>

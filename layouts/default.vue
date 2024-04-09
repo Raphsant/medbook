@@ -49,11 +49,12 @@
       </template>
 
       <template #right>
+        Siguenos en Instagram!
         <UButton
           icon="i-simple-icons-instagram"
           color="gray"
           variant="ghost"
-          to="https://x.com/nuxt_js"
+          to="https://www.instagram.com/clinicavistacentro_oficial/"
           target="_blank"
         />
       </template>
