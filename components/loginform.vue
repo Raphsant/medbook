@@ -98,6 +98,7 @@ async function login(loginData: any) {
           errorMessage.value = response._data.error;
         },
         onResponse({ response }) {
+          console.log(response._data);
           authStore.addUser(response._data);
           isLoading.value = false;
           navigateTo("/");

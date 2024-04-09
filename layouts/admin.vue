@@ -70,10 +70,7 @@ const links = [
         label: "Citas",
       },
       {
-        label: "Members",
-      },
-      {
-        label: "Notifications",
+        label: "Pacientes",
       },
     ],
   },

@@ -118,11 +118,8 @@ async function signup(data: any) {
     errorMessage.value = e.message;
   }
 }
-
 const selected = ref(false);
-const isOpen = ref(false);
 </script>
-
 <template>
   <UCard class="max-w-sm w-full">
     <UAuthForm
@@ -159,85 +156,5 @@ const isOpen = ref(false);
       </template>
     </UAuthForm>
   </UCard>
-  <!--  <div>-->
-  <!--    <UCard>-->
-  <!--      <template #header>-->
-  <!--        <div>-->
-  <!--          <div class="flex flex-col justify-center items-center">-->
-  <!--            <img class="w-[20rem]" src="/img/vclogo.png" alt="" />-->
-  <!--          </div>-->
-  <!--          <div>-->
-  <!--            Bienvenido al Sistema De Citas Del Centro Clinico Vista Centro-->
-  <!--          </div>-->
-  <!--          <div class="text-red-600 text-center" v-if="errorMessage">-->
-  <!--            Un error ha ocurrido, por favor intentelo de nuevo.-->
-  <!--          </div>-->
-  <!--        </div>-->
-  <!--      </template>-->
-  <!--      <UForm-->
-  <!--        :schema="schema"-->
-  <!--        :state="signupForm"-->
-  <!--        class="space-y-4"-->
-  <!--        @submit="signup"-->
-  <!--      >-->
-  <!--        <div class="text-gray-500 text-sm">-->
-  <!--          *Todos los campos son requeridos-->
-  <!--        </div>-->
-  <!--        <UFormGroup label="Nombre de Usuario" name="username">-->
-  <!--          <UInput v-model="signupForm.username" />-->
-  <!--        </UFormGroup>-->
-  <!--        <UFormGroup label="Cedula de identidad" name="id">-->
-  <!--          <UInput v-model="signupForm.id" />-->
-  <!--        </UFormGroup>-->
-  <!--        <UFormGroup label="Nombre" name="firstName">-->
-  <!--          <UInput v-model="signupForm.firstName" />-->
-  <!--        </UFormGroup>-->
-  <!--        <UFormGroup label="Apeliido" name="lastName">-->
-  <!--          <UInput v-model="signupForm.lastName" />-->
-  <!--        </UFormGroup>-->
-  <!--        <UFormGroup label="Correo Electronico" name="email">-->
-  <!--          <UInput v-model="signupForm.email" />-->
-  <!--        </UFormGroup>-->
-  <!--        <UFormGroup label="Numero Telefonico / Whatsapp " name="phone">-->
-  <!--          <UInput v-model="signupForm.phone">-->
-  <!--            <template #trailing><span>🇻🇪</span></template>-->
-  <!--          </UInput>-->
-  <!--        </UFormGroup>-->
-  <!--        <UFormGroup label="Contraseña" name="password">-->
-  <!--          <UInput v-model="signupForm.password" type="password" />-->
-  <!--        </UFormGroup>-->
-  <!--        <div class="flex gap-4 justify-start items-center">-->
-  <!--          <UButton :loading="isLoading" type="submit"> Entrar</UButton>-->
-  <!--          <NuxtLink to="/"-->
-  <!--            ><UButton color="gray" variant="solid">Regresar</UButton></NuxtLink-->
-  <!--          >-->
-  <!--          <div class="flex justify-center items-center gap-2">-->
-  <!--            <span-->
-  <!--              class="cursor-pointer underline underline-white"-->
-  <!--              @click="isOpen = true"-->
-  <!--              color="primary"-->
-  <!--              >Click aqui para leer nuestros Terminos y condiciones</span-->
-  <!--            >-->
-  <!--          </div>-->
-  <!--        </div>-->
-  <!--      </UForm>-->
-  <!--      <USlideover class="h-full items-center" v-model="isOpen">-->
-  <!--        <UDashboardCard>-->
-  <!--          <template #header> Terminos y Condiciones</template>-->
-  <!--          <div class="p-4 flex-1">-->
-  <!--            Al usar este servicio usted acepta que el Centro Clinico Vista-->
-  <!--            Centro use su numero de telefono para contactarlo mediante Whatsapp-->
-  <!--            con informacion relevante a sus citas medicas. El Centro Clinico-->
-  <!--            Vista Centro y el sistema Medbook no vendera ni distribuira su-->
-  <!--            informacion con ningun tercero bajo ninguna circumstancia-->
-  <!--          </div>-->
-  <!--          <template #footer>-->
-  <!--            <UButton block @click="isOpen = false">Cerrar</UButton>-->
-  <!--          </template>-->
-  <!--        </UDashboardCard>-->
-  <!--      </USlideover>-->
-  <!--    </UCard>-->
-  <!--  </div>-->
 </template>
-
 <style scoped></style>

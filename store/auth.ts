@@ -17,10 +17,11 @@ export const useAuthStore = defineStore({
     addUser(value: any) {
       this.user.username = value.username;
       this.user.token = value.token;
-      this.user.id = value.id
+      this.user.id = value.id;
+      this.user.isAdmin = value.roles.includes("ROLE_ADMIN") ? true : false;
     },
   },
   getters: {
-    getUser:  (state) => state.user,
+    getUser: (state) => state.user,
   },
 });

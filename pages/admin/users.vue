@@ -29,6 +29,7 @@ const { pending, data, error } = await useFetch(
     },
   },
 );
+
 const defaultColumns = [
   {
     key: "id",
@@ -53,6 +54,7 @@ const defaultColumns = [
 ];
 const selected = ref([data[0]]);
 const isDeleteUserModalOpen = ref(false);
+
 async function DeleteUser(id) {
   const authStore = useAuthStore();
   const user = JSON.parse(JSON.stringify(authStore.getUser));
@@ -74,9 +76,44 @@ async function DeleteUser(id) {
     console.error(e);
   }
 }
+
+async function ElevateUser(id) {
+  const { elevatePending, elevateData, elevateError } = await useFetch(
+    "https://postgresapp-e83cc2ceb04b.herokuapp.com/api/user/elevate",
+    {
+      method: "POST",
+      query: {
+        userId: id,
+      },
+      onRequest({ request, options }) {
+        options.headers = {
+          "x-access-token": user.token,
+        };
+      },
+      onRequestError({ request, options, error }) {
+        console.error(error);
+      },
+      onResponse({ request, response, options }) {
+        // Process the response data
+        console.log(response._data);
+      },
+      onResponseError({ request, response, options }) {
+        console.error(error);
+      },
+    },
+  );
+}
+
 function handleDeletion() {
   Object.entries(selected.value).forEach(([key, value]) => {
     if (value) DeleteUser(value.id);
+  });
+}
+
+function HandleElevation() {
+  Object.entries(selected.value).forEach(([key, value]) => {
+    if (value) ElevateUser(value.id);
+    toast.add({ title: `Usuario: ${value.id} elevado correctamente` });
   });
 }
 </script>
@@ -117,6 +154,13 @@ function handleDeletion() {
             color="red"
             @click="isDeleteUserModalOpen = true"
           />
+          <UButton
+            v-if="user.isAdmin"
+            label="Elevar usuario"
+            color="green"
+            icon="i-heroicons-chevron-double-up"
+            @click="HandleElevation"
+          />
         </template>
 
         <template #right>
@@ -125,7 +169,7 @@ function handleDeletion() {
             multiple
             class="hidden lg:block"
           >
-            <template #label> Display </template>
+            <template #label> Display</template>
           </USelectMenu>
         </template>
       </UDashboardToolbar>
