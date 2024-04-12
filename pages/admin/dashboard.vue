@@ -6,6 +6,10 @@ import { useDashboard } from "~/composables/useDashboard";
 import useAllApts from "~/composables/useAllApts";
 
 definePageMeta({
+  middleware: "admin",
+});
+
+definePageMeta({
   layout: "admin",
 });
 
@@ -64,35 +68,36 @@ const period = ref<Period>("daily");
       </UDashboardToolbar>
       <UDashboardPanelContent>
         <AdminHomeChart :period="period" :range="range" :apts="aptsData" />
-        <div class="grid lg:grid-cols-2 lg:items-start gap-8 mt-8">
-          <UDashboardCard
-            class="w-fit"
-            title="Citas por confirmar"
-            :description="`Hay ${unconfirmedAppointments.length} citas por confirmar`"
-            icon="i-heroicons-bookmark"
-          >
-            <UProgress
-              :value="aptsData.length - unconfirmedAppointments.length"
-              :max="aptsData.length"
-            />
-          </UDashboardCard>
-        </div>
-        <UDivider label="Atajos" />
-        <div class="grid lg:grid-cols-2 lg:items-start gap-8 mt-8">
-          <UDashboardCard
-            class="w-fit"
-            title="Agregar Medico"
-            icon="i-heroicons-user"
-          >
-          </UDashboardCard>
-        </div>
-        <div class="grid lg:grid-cols-2 lg:items-start gap-8 mt-8">
-          <UDashboardCard
-            class="w-fit"
-            title="Generar Reporte Diario"
-            icon="i-heroicons-chart-pie"
-          >
-          </UDashboardCard>
+        <div class="grid lg:grid-cols-3 lg:items-start gap-8 mt-8">
+          <NuxtLink to="/admin/appointments">
+            <UDashboardCard
+              class="w-full"
+              title="Citas por confirmar"
+              :description="`Hay ${unconfirmedAppointments.length} citas por confirmar`"
+              icon="i-heroicons-bookmark"
+            >
+              <UProgress
+                :value="aptsData.length - unconfirmedAppointments.length"
+                :max="aptsData.length"
+              />
+            </UDashboardCard>
+          </NuxtLink>
+          <NuxtLink to="/admin/doctors">
+            <UDashboardCard class="w-full">
+              <template #title> Medicos</template>
+              <template #icon>
+                <UIcon class="text-6xl" name="i-heroicons-user-group" />
+              </template>
+            </UDashboardCard>
+          </NuxtLink>
+          <NuxtLink to="/admin/users">
+            <UDashboardCard class="w-full">
+              <template #title> Usuarios/Pacientes</template>
+              <template #icon>
+                <UIcon class="text-6xl" name="i-heroicons-user" />
+              </template>
+            </UDashboardCard>
+          </NuxtLink>
         </div>
       </UDashboardPanelContent>
     </UDashboardPanel>

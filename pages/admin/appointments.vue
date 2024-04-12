@@ -3,6 +3,10 @@
 import formatDateTime from "~/helper/formatDateTime.js";
 
 definePageMeta({
+  middleware: "admin",
+});
+
+definePageMeta({
   layout: "admin",
 });
 //Import user from Pinia for fetching related uses
@@ -152,12 +156,7 @@ async function handleConfirmation() {
             label="Confirmar Cita"
             icon="i-heroicons-check-badge"
           />
-          <UButton
-            label="Cancelar Cita"
-            icon="i-heroicons-trash"
-            variant="outline"
-            color="red"
-          />
+          <UButton label="Cancelar Cita" icon="i-heroicons-trash" color="red" />
         </template>
         <template #right>
           <USelectMenu

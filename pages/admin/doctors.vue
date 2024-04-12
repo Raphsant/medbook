@@ -3,6 +3,10 @@ import Admin from "~/layouts/admin.vue";
 import { useAuthStore } from "~/store/auth";
 
 definePageMeta({
+  middleware: "admin",
+});
+
+definePageMeta({
   layout: "admin",
 });
 
@@ -68,6 +72,39 @@ function handleDelection() {
   isDelecteDoctorModalOpen.value = false;
   console.log(selected.value);
 }
+
+const filter = ref("");
+
+const filterAttribute = [
+  {
+    label: "Apellido",
+    key: "lastName",
+  },
+  {
+    label: "Nombre",
+    key: "firstName",
+  },
+  {
+    label: "Especialidad",
+    key: "specialty",
+  },
+  {
+    label: "Cedula",
+    key: "id",
+  },
+];
+
+const selectedFilter = ref(filterAttribute[0]);
+
+const doctorsArray = computed(() => {
+  return doctors.value.filter((item) => {
+    if (selectedFilter.value.key !== "id")
+      return item[selectedFilter.value.key]
+        .toLowerCase()
+        .includes(filter.value.toLowerCase());
+    return item[selectedFilter.value.key].toString().includes(filter.value);
+  });
+});
 </script>
 
 <template>
@@ -83,35 +120,34 @@ function handleDelection() {
           </div>
         </template>
         <template #right>
+          <USelectMenu v-model="selectedFilter" :options="filterAttribute" />
           <UInput
             ref="input"
-            v-model="q"
             icon="i-heroicons-funnel"
             autocomplete="off"
-            placeholder="Filter users..."
+            :placeholder="`Filtar por ${selectedFilter.label}...`"
             class="hidden lg:block"
             @keydown.esc="$event.target.blur()"
+            v-model="filter"
           >
             <template #trailing>
               <UKbd value="/" />
             </template>
           </UInput>
-
-          <UButton
-            @click="isNewDoctorModalOpen = !isNewDoctorModalOpen"
-            label="Nuevo Medico"
-            trailing-icon="i-heroicons-plus"
-            color="gray"
-          />
         </template>
       </UDashboardNavbar>
       <UDashboardToolbar>
         <template #left>
           <UButton
+            @click="isNewDoctorModalOpen = !isNewDoctorModalOpen"
+            label="Nuevo Medico"
+            icon="i-heroicons-plus"
+            color="primary"
+          />
+          <UButton
             label="Eliminar Medico"
             @click="isDelecteDoctorModalOpen = true"
             icon="i-heroicons-trash"
-            variant="outline"
             color="red"
           />
         </template>
@@ -122,14 +158,14 @@ function handleDelection() {
             multiple
             class="hidden lg:block"
           >
-            <template #label> Display </template>
+            <template #label> Display</template>
           </USelectMenu>
         </template>
       </UDashboardToolbar>
       <UTable
         v-model="selected"
         :columns="defaultColumns"
-        :rows="doctors"
+        :rows="doctorsArray"
       ></UTable>
       <UDashboardModal
         v-model="isNewDoctorModalOpen"

@@ -1,5 +1,8 @@
 <script setup>
 definePageMeta({
+  middleware: "admin",
+});
+definePageMeta({
   layout: "admin",
 });
 
@@ -116,6 +119,35 @@ function HandleElevation() {
     toast.add({ title: `Usuario: ${value.id} elevado correctamente` });
   });
 }
+
+const filter = ref("");
+
+const usersArray = computed(() => {
+  return data.value.filter((item) => {
+    if (selectedFilter.value.key !== "id")
+      return item[selectedFilter.value.key]
+        .toLowerCase()
+        .includes(filter.value.toLowerCase());
+    return item[selectedFilter.value.key].toString().includes(filter.value);
+  });
+});
+
+const filterAttribute = [
+  {
+    label: "Apellido",
+    key: "lastName",
+  },
+  {
+    label: "Nombre",
+    key: "firstName",
+  },
+  {
+    label: "Cedula",
+    key: "id",
+  },
+];
+
+const selectedFilter = ref(filterAttribute[0]);
 </script>
 
 <template>
@@ -130,13 +162,15 @@ function HandleElevation() {
           </div>
         </template>
         <template #right>
+          <USelectMenu v-model="selectedFilter" :options="filterAttribute" />
           <UInput
             ref="input"
             icon="i-heroicons-funnel"
             autocomplete="off"
-            placeholder="Filter users..."
+            :placeholder="`Filtar por ${selectedFilter.label}...`"
             class="hidden lg:block"
             @keydown.esc="$event.target.blur()"
+            v-model="filter"
           >
             <template #trailing>
               <UKbd value="/" />
@@ -148,30 +182,21 @@ function HandleElevation() {
         <template #left>
           <!--          <UButton label="Agregar Paciente" icon="i-heroicons-plus" variant="outline" color="green" @click="isAddUserModalOpen = true"/>-->
           <UButton
-            label="Eliminar Paciente"
-            icon="i-heroicons-trash"
-            variant="outline"
-            color="red"
-            @click="isDeleteUserModalOpen = true"
-          />
-          <UButton
             v-if="user.isAdmin"
             label="Elevar usuario"
-            color="green"
+            color="primary"
             icon="i-heroicons-chevron-double-up"
             @click="HandleElevation"
           />
+          <UButton
+            label="Eliminar Paciente"
+            icon="i-heroicons-trash"
+            color="red"
+            @click="isDeleteUserModalOpen = true"
+          />
         </template>
 
-        <template #right>
-          <USelectMenu
-            icon="i-heroicons-adjustments-horizontal-solid"
-            multiple
-            class="hidden lg:block"
-          >
-            <template #label> Display</template>
-          </USelectMenu>
-        </template>
+        <template #right> </template>
       </UDashboardToolbar>
       <UTable
         v-model="selected"
@@ -181,7 +206,7 @@ function HandleElevation() {
         }"
         :progress="{ color: 'primary', animation: 'carousel' }"
         :columns="defaultColumns"
-        :rows="data"
+        :rows="usersArray"
         :loading="pending"
       ></UTable>
     </UDashboardPanel>

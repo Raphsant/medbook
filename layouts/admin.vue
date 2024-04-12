@@ -93,9 +93,7 @@ const links = [
       </UDashboardNavbar>
 
       <UDashboardSidebar>
-        <template #header>
-          <UDashboardSearchButton />
-        </template>
+        <template #header> Bienvenido!</template>
 
         <UDashboardSidebarLinks :links="links" />
 
