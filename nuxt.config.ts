@@ -14,6 +14,7 @@ export default defineNuxtConfig({
     "@nuxtjs/google-fonts",
     "@nuxtjs/device",
     "@vueuse/nuxt",
+    "@sidebase/nuxt-pdf",
   ],
   //@ts-ignore
   browser: "firefox",

@@ -68,6 +68,7 @@ const links = [
     children: [
       {
         label: "Citas",
+        to: "/admin/aptreports",
       },
       {
         label: "Pacientes",
