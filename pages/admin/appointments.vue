@@ -36,6 +36,9 @@ const { pending, data, error } = await useFetch(
 );
 //state Variables
 const apts = ref("");
+watch(apts, async (newApts, oldApts) => {
+  apts.value = newApts;
+});
 
 //iterating through the data array, so we can join the user & doctor names to get the full name.
 const modifyArray = () => {
@@ -49,7 +52,9 @@ const modifyArray = () => {
       // Create modified names
       const modifiedUserName = `${user.firstName} ${user.lastName}`;
       const modifiedDoctorName = `${doctor.firstName} ${doctor.lastName}`;
-      const status = appointment.isConfirmed ? "Confirmada" : "En Espera";
+      const status =
+        appointment.status.charAt(0).toUpperCase() +
+        appointment.status.slice(1).toLowerCase();
 
       // Return a new object with the desired structure and modified names
       return {
@@ -57,7 +62,7 @@ const modifyArray = () => {
         user: { ...user, name: modifiedUserName },
         doctor: { ...doctor, name: modifiedDoctorName },
         dateTime: formatDateTime(appointment.dateTime),
-        isConfirmed: status,
+        status: status,
         users: undefined, // Remove the original users array
         doctors: undefined, // Remove the original doctors array
       };
@@ -89,12 +94,19 @@ const defaultColumns = [
     label: "Paciente",
   },
   {
-    key: "isConfirmed",
+    key: "status",
     label: "Estado",
   },
 ];
 
-async function confirmAppointment(appointment) {
+/**
+ * Modifies the status of an appointment.
+ *
+ * @param {object} appointment - The appointment object to modify.
+ * @param {string} status - The new status for the appointment.
+ * @returns {Promise<void>} - A Promise that resolves once the modification is complete.
+ */
+async function modifyAppointment(appointment, status) {
   const url = "https://postgresapp-e83cc2ceb04b.herokuapp.com/api/apts/confirm";
   try {
     const res = await $fetch(url, {
@@ -104,7 +116,7 @@ async function confirmAppointment(appointment) {
       },
       body: {
         id: appointment.id,
-        status: true,
+        status: status,
       },
     });
   } catch (e) {
@@ -112,12 +124,19 @@ async function confirmAppointment(appointment) {
   }
 }
 
-async function handleConfirmation() {
+/**
+ * Handles the confirmation of an appointment.
+ *
+ * @param {string} status - The confirmation status.
+ * @returns {Promise<void>} A promise that resolves when the confirmation is handled.
+ */
+
+async function handleConfirmation(status) {
   Object.entries(selected.value).forEach(([key, value]) => {
-    if (value) confirmAppointment(value);
+    if (value) modifyAppointment(value, status);
   });
   await refreshNuxtData();
-  modifyArray();
+  await modifyArray();
 }
 </script>
 
@@ -152,11 +171,21 @@ async function handleConfirmation() {
       <UDashboardToolbar>
         <template #left>
           <UButton
-            @click="handleConfirmation"
+            @click="handleConfirmation('confirmada')"
             label="Confirmar Cita"
             icon="i-heroicons-check-badge"
           />
-          <UButton label="Cancelar Cita" icon="i-heroicons-trash" color="red" />
+          <UButton
+            @click="handleConfirmation('cancelada')"
+            label="Cancelar Cita"
+            icon="i-heroicons-trash"
+            color="red"
+          /><UButton
+            @click="handleConfirmation('en espera')"
+            label="Cita en espera"
+            icon="i-heroicons-clock"
+            color="orange"
+          />
         </template>
         <template #right>
           <USelectMenu
@@ -164,7 +193,7 @@ async function handleConfirmation() {
             multiple
             class="hidden lg:block"
           >
-            <template #label> Display </template>
+            <template #label> Display</template>
           </USelectMenu>
         </template>
       </UDashboardToolbar>
@@ -179,11 +208,19 @@ async function handleConfirmation() {
         :rows="apts"
         :loading="pending"
       >
-        <template #isConfirmed-data="{ row }">
+        <template #status-data="{ row }">
           <UBadge
             size="lg"
-            :label="row.isConfirmed == 'En Espera' ? 'En Espera' : 'Confirmada'"
-            :color="row.isConfirmed == 'En Espera' ? 'orange' : 'emerald'"
+            :label="row.status"
+            :color="
+              row.status === 'Confirmada'
+                ? 'green'
+                : row.status === 'En espera'
+                  ? 'orange'
+                  : row.status === 'Cancelada'
+                    ? 'red'
+                    : 'gray'
+            "
             variant="subtle"
           />
         </template>

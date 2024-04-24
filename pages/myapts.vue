@@ -30,7 +30,9 @@ const { pending, error, data } = useFetch(
             ...apt,
             doctor: { ...doc, firstName: modifiedName },
             dateTime: formatDateTime(apt.dateTime),
-            isConfirmed: apt.isConfirmed ? "Confirmada" : "En Espera",
+            status:
+              apt.status.charAt(0).toUpperCase() +
+              apt.status.slice(1).toLowerCase(),
           };
         }),
       );
@@ -78,7 +80,7 @@ const columns = [
     label: "Doctor",
   },
   {
-    key: "isConfirmed",
+    key: "status",
     label: "Estado",
   },
 ];
@@ -106,13 +108,19 @@ const rows = computed(() => {
               :rows="rows"
               :columns="columns"
             >
-              <template #isConfirmed-data="{ row }">
+              <template #status-data="{ row }">
                 <UBadge
                   size="lg"
-                  :label="
-                    row.isConfirmed == 'En Espera' ? 'En Espera' : 'Confirmada'
+                  :label="row.status"
+                  :color="
+                    row.status === 'Confirmada'
+                      ? 'green'
+                      : row.status === 'En espera'
+                        ? 'orange'
+                        : row.status === 'Cancelada'
+                          ? 'red'
+                          : 'gray'
                   "
-                  :color="row.isConfirmed == 'En Espera' ? 'orange' : 'emerald'"
                   variant="subtle"
                 />
               </template>

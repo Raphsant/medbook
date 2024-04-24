@@ -16,11 +16,11 @@
       <template #right>
         <div class="hidden lg:flex justify-center items-center gap-4">
           <UButton v-if="userRef?.token" @click="handleSignOut"
-            >Cerrar Sesion</UButton
-          >
-          <NuxtLink v-if="!userRef?.token" to="/login"
-            ><UButton>Iniciar Sesion</UButton></NuxtLink
-          >
+            >Cerrar Sesion
+          </UButton>
+          <NuxtLink v-if="!userRef?.token" to="/login">
+            <UButton>Iniciar Sesion</UButton>
+          </NuxtLink>
         </div>
         <UColorModeToggle />
       </template>
@@ -83,18 +83,19 @@ const footerLinks = [
 import { useAuthStore } from "~/store/auth";
 
 const authStore = useAuthStore();
-const user = JSON.parse(JSON.stringify(authStore.getUser));
+const user = ref(JSON.parse(JSON.stringify(authStore.getUser)));
 console.log(user);
 const userRef = ref("");
 
 onMounted(() => {
-  userRef.value = user;
+  userRef.value = user.value;
 });
 
-const { token } = user;
+const { token } = user.value;
 
 function handleSignOut() {
   authStore.$reset();
+  userRef.value = "";
   return navigateTo("/login");
 }
 
@@ -128,6 +129,12 @@ const links = [
     icon: "i-heroicons-user-circle\n",
   },
 ];
+
+watch(user, async (newUser, oldUser) => {
+  console.log("user is.");
+  //@ts-ignore
+  userRef.value = newUser;
+});
 </script>
 
 <style scoped></style>
