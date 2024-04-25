@@ -44,40 +44,88 @@
                   v-if="doctor.schedule?.Monday?.active"
                 >
                   <div>Lunes</div>
-                  <div>{{ doctor.schedule?.Monday?.times.startTime }}</div>
-                  <div>{{ doctor.schedule?.Monday?.times.endTime }}</div>
+                  <div>
+                    {{
+                      convertTo12Hours(doctor.schedule?.Monday?.times.startTime)
+                    }}
+                  </div>
+                  <div>
+                    {{
+                      convertTo12Hours(doctor.schedule?.Monday?.times.endTime)
+                    }}
+                  </div>
                 </div>
                 <div
                   class="flex flex-col"
                   v-if="doctor.schedule?.Tuesday?.active"
                 >
                   <div>Martes</div>
-                  <div>{{ doctor.schedule?.Tuesday?.times.startTime }}</div>
-                  <div>{{ doctor.schedule?.Tuesday?.times.endTime }}</div>
+                  <div>
+                    {{
+                      convertTo12Hours(
+                        doctor.schedule?.Tuesday?.times.startTime,
+                      )
+                    }}
+                  </div>
+                  <div>
+                    {{
+                      convertTo12Hours(doctor.schedule?.Tuesday?.times.endTime)
+                    }}
+                  </div>
                 </div>
                 <div
                   class="flex flex-col"
                   v-if="doctor.schedule?.Wednesday?.active"
                 >
                   <div>Miercoles</div>
-                  <div>{{ doctor.schedule?.Wednesday?.times.startTime }}</div>
-                  <div>{{ doctor.schedule?.Wednesday?.times.endTime }}</div>
+                  <div>
+                    {{
+                      convertTo12Hours(
+                        doctor.schedule?.Wednesday?.times.startTime,
+                      )
+                    }}
+                  </div>
+                  <div>
+                    {{
+                      convertTo12Hours(
+                        doctor.schedule?.Wednesday?.times.endTime,
+                      )
+                    }}
+                  </div>
                 </div>
                 <div
                   class="flex flex-col"
                   v-if="doctor.schedule?.Thursday?.active"
                 >
                   <div>Jueves</div>
-                  <div>{{ doctor.schedule?.Thursday?.times.startTime }}</div>
-                  <div>{{ doctor.schedule?.Thursday?.times.endTime }}</div>
+                  <div>
+                    {{
+                      convertTo12Hours(
+                        doctor.schedule?.Thursday?.times.startTime,
+                      )
+                    }}
+                  </div>
+                  <div>
+                    {{
+                      convertTo12Hours(doctor.schedule?.Thursday?.times.endTime)
+                    }}
+                  </div>
                 </div>
                 <div
                   class="flex flex-col"
                   v-if="doctor.schedule?.Friday?.active"
                 >
                   <div>Viernes</div>
-                  <div>{{ doctor.schedule?.Friday?.times.startTime }}</div>
-                  <div>{{ doctor.schedule?.Friday?.times.endTime }}</div>
+                  <div>
+                    {{
+                      convertTo12Hours(doctor.schedule?.Friday?.times.startTime)
+                    }}
+                  </div>
+                  <div>
+                    {{
+                      convertTo12Hours(doctor.schedule?.Friday?.times.endTime)
+                    }}
+                  </div>
                 </div>
               </div>
             </UContainer>
@@ -139,6 +187,27 @@ const parseJSONB = (jsonB) => {
 const handleClick = (e) => {
   return navigateTo(`doctor/${e.id}`);
 };
+
+/**
+ * Converts a time string to 12-hour format.
+ *
+ * @param {string} timeString - The time string to convert (in HH:mm format).
+ * @returns {string} The converted time string (in HH:mm AM/PM format).
+ */
+function convertTo12Hours(timeString) {
+  // Split the time string into hours and minutes
+  let [hours, minutes] = timeString.split(":").map(Number);
+
+  // Determine AM or PM
+  let ampm = hours >= 12 ? "PM" : "AM";
+
+  // Convert hours to 12-hour format
+  hours = hours % 12;
+  hours = hours ? hours : 12;
+
+  // Return the formatted time string
+  return `${hours}:${minutes.toString().padStart(2, "0")} ${ampm}`;
+}
 </script>
 
 <style scoped>

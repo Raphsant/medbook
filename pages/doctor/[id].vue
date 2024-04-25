@@ -18,7 +18,13 @@
           v-for="date in upcomingAvailableDates"
         >
           <template #header>
-            <div class="text-xl font-bold capitalize">{{ date }}</div>
+            <div class="text-xl font-bold capitalize">
+              {{
+                format(date, "PPPP", {
+                  locale: es,
+                })
+              }}
+            </div>
           </template>
           <template #description>
             <div class="w-fit flex items-center space-x-1 text-lg">
@@ -107,6 +113,9 @@
 
 <script setup>
 import { useAuthStore } from "~/store/auth";
+import { formatInTimeZone, fromZonedTime, toZonedTime } from "date-fns-tz";
+import { format } from "date-fns";
+import { es } from "date-fns/locale";
 
 const route = useRoute();
 const authStore = useAuthStore();
@@ -145,48 +154,41 @@ function generateNext14DaysInSpanish(schedule) {
     let futureDate = new Date(today);
     futureDate.setDate(futureDate.getDate() + i);
 
-    let dayOfWeek = futureDate.toLocaleDateString("en-US", { weekday: "long" });
+    let dayOfWeek = futureDate.toLocaleDateString("en-US", {
+      weekday: "long",
+      timeZone: "America/Caracas",
+    });
+    // console.log(dayOfWeek);
 
     // Check if the day is active in the doctor's schedule
     if (schedule[dayOfWeek] && schedule[dayOfWeek].active) {
-      dates.push(
-        futureDate.toLocaleDateString("es-ES", { weekday: "long" }) +
-          " " +
-          futureDate.toLocaleDateString("es-ES", { hour12: true }),
-      );
+      dates.push(futureDate);
     }
   }
-
+  // console.log(dates);
   return dates;
 }
 
 // Using the function
 let upcomingAvailableDates = generateNext14DaysInSpanish(doctor.schedule);
-upcomingAvailableDates.forEach((date) => {
-  console.log(date);
-});
+// upcomingAvailableDates.forEach((date) => {
+//   console.log(date);
+// });
 
 function getTimeSlotsForDate(dateString, schedule) {
-  // Spanish days of the week mapped to English
-  const daysMap = {
-    lunes: "Monday",
-    martes: "Tuesday",
-    miércoles: "Wednesday",
-    jueves: "Thursday",
-    viernes: "Friday",
-    sábado: "Saturday",
-    domingo: "Sunday",
-  };
-
   // Extract the day of the week from the string
-  let dayOfWeekSpanish = dateString.split(" ")[0].toLowerCase();
+  // let dayOfWeek = dateString.split(" ")[0].toLowerCase();
+  console.log(dateString);
 
-  // Translate to English
-  let dayOfWeekEnglish = daysMap[dayOfWeekSpanish];
+  let dayOfWeek = dateString.toLocaleDateString("en-US", {
+    weekday: "long",
+    timeZone: "America/Caracas",
+  });
 
   // Check if the day is in the schedule
-  if (schedule[dayOfWeekEnglish] && schedule[dayOfWeekEnglish].active) {
-    return schedule[dayOfWeekEnglish].times;
+  if (schedule[dayOfWeek] && schedule[dayOfWeek].active) {
+    console.log(schedule[dayOfWeek].times);
+    return schedule[dayOfWeek].times;
   } else {
     return null;
   }
@@ -196,15 +198,12 @@ function generateDateTimeSlots(dateString, startTime, endTime, appointments) {
   let slots = [];
 
   // Extract the date part
-  let datePart = dateString.split(" ").slice(1).join(" ");
-
-  // Convert date format from "dd/mm/yyyy" to "mm/dd/yyyy"
-  let [day, month, year] = datePart.split("/");
-  let formattedDate = `${month}/${day}/${year}`;
+  // let datePart = dateString.split(" ").slice(1).join(" ");
+  let datePart = dateString.toLocaleDateString("en-US", {});
 
   // Parse the start and end times with the date
-  let startDateTime = new Date(`${formattedDate} ${startTime}`);
-  let endDateTime = new Date(`${formattedDate} ${endTime}`);
+  let startDateTime = new Date(`${datePart} ${startTime}`);
+  let endDateTime = new Date(`${datePart} ${endTime}`);
 
   if (isNaN(startDateTime) || isNaN(endDateTime)) {
     return "Invalid date";
@@ -216,13 +215,13 @@ function generateDateTimeSlots(dateString, startTime, endTime, appointments) {
       ":" +
       startDateTime.getMinutes().toString().padStart(2, "0");
 
-    let slotDateTime = new Date(`${formattedDate} ${timeString}`);
+    let slotDateTime = new Date(`${datePart} ${timeString}`);
 
     // Check if the time slot is not in any of the appointments
     let isSlotAvailable = !appointments.some((appointment) => {
       let appointmentDate = new Date(appointment.dateTime);
-      appointmentDate.toLocaleString("es-ES", {
-        timeZone: "America/Chicago",
+      appointmentDate.toLocaleString("en-US", {
+        timeZone: "America/Caracas",
         hour12: true,
       });
       return slotDateTime.getTime() === appointmentDate.getTime();
@@ -240,21 +239,34 @@ function generateDateTimeSlots(dateString, startTime, endTime, appointments) {
 async function handleClick() {
   isLoading.value = true;
   await new Promise((r) => setTimeout(r, 1000));
-  let datePart = selectedDate.value.selectedDateStr.split(" ")[1];
+  console.log("DATE");
+  console.log(selectedDate.value);
+  // let datePart = selectedDate.value.selectedDateStr.split(" ")[1];
+  let datePart = selectedDate.value.selectedDateStr.toLocaleDateString("en-US");
 
   // Split the datePart into day, month, and year
   let [day, month, year] = datePart.split("/");
 
   // Format the date in "YYYY-MM-DD" format
-  let formattedDate = `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+  let formattedDate = `${year}-${day.padStart(2, "0")}-${month.padStart(2, "0")}`;
 
   // Combine date and time
   let dateTime = `${formattedDate}T${selectedTime.value}:00`; // Adding ":00" for seconds
   console.log(dateTime);
 
   try {
-    let targetDate = new Date(dateTime);
-    let targetDateUTC = targetDate.toUTCString();
+    let localizedDate = dateTime + "-04:00";
+    // let utcDateString = localizedDate.toUTCString();
+    // let utcDate = new Date(dateTime);
+    // let caracasTime = utcDate.toLocaleString("en-US", {
+    //   timeZone: "America/Caracas",
+    //   hour: "2-digit",
+    //   minute: "2-digit",
+    //   hour12: false,
+    // });
+    // console.log(localizedDate);
+    // console.log(caracasTime);
+    // console.log(utcDate);
     const res = await $fetch(
       "https://postgresapp-e83cc2ceb04b.herokuapp.com/api/apts/create",
       {
@@ -265,7 +277,7 @@ async function handleClick() {
         body: {
           userId: user.id,
           doctorId: doctor.id,
-          dateTime: targetDateUTC,
+          dateTime: localizedDate,
         },
       },
     );

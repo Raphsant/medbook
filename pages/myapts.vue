@@ -2,11 +2,14 @@
 import { ref, onMounted } from "vue";
 import { useAuthStore } from "~/store/auth";
 import { date } from "yup";
+import { formatInTimeZone, toZonedTime } from "date-fns-tz";
+import { format, setDefaultOptions } from "date-fns";
+import { es } from "date-fns/locale";
 
 definePageMeta({
   middleware: "auth",
 });
-
+setDefaultOptions({ locale: es });
 const authStore = useAuthStore();
 const config = useRuntimeConfig();
 const user = JSON.parse(JSON.stringify(authStore.getUser));
@@ -29,7 +32,10 @@ const { pending, error, data } = useFetch(
           return {
             ...apt,
             doctor: { ...doc, firstName: modifiedName },
-            dateTime: formatDateTime(apt.dateTime),
+            dateTime: format(
+              apt.dateTime,
+              "iiii, d 'de' MMMM 'de' yyyy 'a las' hh:mm:ss a",
+            ),
             status:
               apt.status.charAt(0).toUpperCase() +
               apt.status.slice(1).toLowerCase(),
@@ -47,8 +53,21 @@ async function populateAptCard(id) {
   return doc || {};
 }
 
+function formatAptTime(dateString) {
+  const date = new Date(dateString);
+  // Convert the date to Caracas time zone
+  const timeZone = "America/Caracas";
+  const caracasDate = toZonedTime(date, timeZone);
+  const formattedDate = format(caracasDate, "PPPPppa", {
+    locale: es,
+    timeZone,
+  });
+  return formattedDate;
+}
+
 function formatDateTime(dateTimeString) {
   // Create a Date object from the dateTimeString
+  toZonedTime(dateTimeString, "Americas/Caracas");
   let date = new Date(dateTimeString);
 
   // Options for toLocaleString to get day of the week, date, and time in 12-hour format
