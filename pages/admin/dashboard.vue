@@ -20,7 +20,7 @@ const {
 } = await useAllApts();
 
 const unconfirmedAppointments = aptsData.value.filter(
-  (apt) => !apt.isConfirmed,
+  (apt) => apt.status == "en espera",
 );
 const { isNotificationsSlideoverOpen } = useDashboard();
 

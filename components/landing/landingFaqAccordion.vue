@@ -68,7 +68,7 @@ const medicalSpecialties = [
           Contamos con las siguientes aseguradoras:
         </div>
         <div
-          class="flex flex-col lg:grid-cols-3 space-y-1.5 lg:grid justify-center items-center place-items-center"
+          class="flex flex-col lg:grid-cols-3 space-y-2 space-x-3.5 lg:grid justify-start items-center place-items-start"
         >
           <ul v-for="(value, index) in seguros">
             <li

@@ -84,22 +84,47 @@ async function updateUserProfile() {
               />
             </div>
           </template>
-          <UContainer
-            class="flex flex-col justify-center items-center gap-5 text-xl"
+          <div
+            class="grid grid-cols-2 place-items-start items-center justify-center w-full"
           >
-            <UDivider label="Nombre Completo" />
-            <lazydiv>
-              {{
-                userInfo
-                  ? userInfo.firstName + " " + userInfo.lastName
-                  : "Loading"
-              }}
-            </lazydiv>
-            <UDivider label="Cedula de Identidad" />
-            <div>{{ userInfo ? userInfo.id : "Loading" }}</div>
-            <UDivider label="Correo Electronico" />
-            <div>{{ userInfo ? userInfo.email : "Loading" }}</div>
-          </UContainer>
+            <div class="w-full text-9xl text-center">
+              <UIcon name="i-heroicons-user" />
+            </div>
+            <div class="space-y-2.5 text-md">
+              <div>
+                Cedula de identidad:
+                {{ userInfo ? userInfo.id : "Cargando..." }}
+              </div>
+              <div>
+                Nombre Completo:
+                {{
+                  userInfo
+                    ? userInfo.firstName + " " + userInfo.lastName
+                    : "Cargando..."
+                }}
+              </div>
+              <div>
+                Correo Electronico:
+                {{ userInfo ? userInfo.email : "Cargando..." }}
+              </div>
+            </div>
+          </div>
+          <!--          <UContainer-->
+          <!--            class="flex flex-col justify-center items-center gap-5 text-xl"-->
+          <!--          >-->
+          <!--            <UDivider label="Nombre Completo" />-->
+          <!--            <lazydiv>-->
+          <!--              {{-->
+          <!--                userInfo-->
+          <!--                  ? userInfo.firstName + " " + userInfo.lastName-->
+          <!--                  : "Loading"-->
+          <!--              }}-->
+          <!--            </lazydiv>-->
+          <!--            <UDivider label="Cedula de Identidad" />-->
+          <!--            <div>{{ userInfo ? userInfo.id : "Loading" }}</div>-->
+          <!--            <UDivider label="Correo Electronico" />-->
+          <!--            <div>{{ userInfo ? userInfo.email : "Loading" }}</div>-->
+          <!--          </UContainer>-->
         </UCard>
       </UPageBody>
       <template #right>

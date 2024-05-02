@@ -55,7 +55,7 @@ const defaultColumns = [
     sortable: true,
   },
 ];
-const selected = ref([data[0]]);
+const selected = ref([]);
 const isDeleteUserModalOpen = ref(false);
 
 async function DeleteUser(id) {
@@ -109,14 +109,21 @@ async function ElevateUser(id) {
 
 function handleDeletion() {
   Object.entries(selected.value).forEach(([key, value]) => {
-    if (value) DeleteUser(value.id);
+    console.log(value);
+    console.log(key);
+    if (value.username === "webmaster") {
+      toast.add({ title: `No se puede eliminar al Webmaster` });
+    }
+    if (value && value.username !== "webmaster") DeleteUser(value.id);
   });
 }
 
 function HandleElevation() {
   Object.entries(selected.value).forEach(([key, value]) => {
-    if (value) ElevateUser(value.id);
-    toast.add({ title: `Usuario: ${value.id} elevado correctamente` });
+    if (value) {
+      ElevateUser(value.id);
+      toast.add({ title: `Usuario: ${value.id} elevado correctamente` });
+    }
   });
 }
 
@@ -196,7 +203,7 @@ const selectedFilter = ref(filterAttribute[0]);
           />
         </template>
 
-        <template #right> </template>
+        <template #right></template>
       </UDashboardToolbar>
       <UTable
         v-model="selected"
