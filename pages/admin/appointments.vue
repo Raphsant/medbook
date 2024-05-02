@@ -16,7 +16,7 @@ const authStore = useAuthStore();
 const user = JSON.parse(JSON.stringify(authStore.getUser));
 
 //Get appointment list from the Database
-const { pending, data, error } = await useFetch(
+const { pending, data, error, refresh } = await useFetch(
   "https://postgresapp-e83cc2ceb04b.herokuapp.com/api/apts/getAllApts",
   {
     method: "GET",
@@ -70,7 +70,7 @@ const modifyArray = () => {
   }
 };
 modifyArray();
-const selected = ref([apts.value[0]]);
+const selected = ref([]);
 //Array of columns that will populate the Appointment Table
 const defaultColumns = [
   {
@@ -135,8 +135,9 @@ async function handleConfirmation(status) {
   Object.entries(selected.value).forEach(([key, value]) => {
     if (value) modifyAppointment(value, status);
   });
-  await refreshNuxtData();
-  await modifyArray();
+  selected.value = [];
+  await refresh();
+  modifyArray();
 }
 </script>
 
