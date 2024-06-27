@@ -94,7 +94,7 @@ const links = [
       </UDashboardNavbar>
 
       <UDashboardSidebar>
-        <template #header> Bienvenido!</template>
+        <template #header> Bienvenido {{ user.username }}!</template>
 
         <UDashboardSidebarLinks :links="links" />
 
@@ -103,10 +103,11 @@ const links = [
         <div class="flex-1" />
 
         <UDashboardSidebarLinks :links="footerLinks" />
-
         <UDivider class="sticky bottom-0" />
 
-        <template #footer></template>
+        <template #footer>
+          <Clock />
+        </template>
       </UDashboardSidebar>
     </UDashboardPanel>
 

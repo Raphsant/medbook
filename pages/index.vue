@@ -39,9 +39,10 @@ Cuando necesites respuestas sobre tu salud, sabes a donde ir
       <ULandingCTA
         class="h-fit p-0"
         description="Tenemos 17 años prestando el mejor de los servicios."
+        :ui="{ wrapper: 'bg-emerald-50' }"
       >
         <template #title>
-          <div class="text-primary">¿Por qué escogernos?</div>
+          <div class="text-emerald-600">¿Por qué escogernos?</div>
         </template>
         <div
           class="flex flex-col lg:flex-row w-full space-y-4.5 justify-center items-center text-center"
@@ -80,11 +81,15 @@ Cuando necesites respuestas sobre tu salud, sabes a donde ir
           target="_blank"
           to="https://www.google.com/maps/place/Centro+Cl%C3%ADnico+Vista+Centro/@10.5040329,-66.9122475,15z/data=!4m6!3m5!1s0x8c2a5ed121d63e91:0xe82aa5cee4f05815!8m2!3d10.5040329!4d-66.9122475!16s%2Fg%2F11c45tmp65?entry=ttu"
         >
-          <ULandingCard color="primary" orientation="horizontal">
+          <ULandingCard
+            color="primary"
+            orientation="horizontal"
+            :ui="{ background: 'bg-emerald-50' }"
+          >
             <template #title>
               <div class="text-3xl">
                 <UIcon name="i-heroicons-map" />
-                <div class="text-primary">¿Donde encontrarnos?</div>
+                <div class="text-emerald-600">¿Donde encontrarnos?</div>
               </div>
             </template>
             <template #description>
@@ -108,9 +113,9 @@ Cuando necesites respuestas sobre tu salud, sabes a donde ir
           </ULandingCard>
         </NuxtLink>
       </div>
-      <ULandingCTA>
+      <ULandingCTA :ui="{ wrapper: 'bg-emerald-50' }">
         <template #title>
-          <div class="text-primary">
+          <div class="text-emerald-600">
             Una atención médica centrada en ti y los tuyos
           </div>
         </template>
@@ -142,11 +147,11 @@ Cuando necesites respuestas sobre tu salud, sabes a donde ir
           </div>
         </template>
       </ULandingCTA>
-      <ULandingCard>
+      <ULandingCard :ui="{ background: 'bg-emerald-50' }">
         <template #title>
           <div class="flex justify-center items-center space-x-3.5">
             <UIcon class="text-3xl" name="i-heroicons-phone" />
-            <div class="text-3xl text-primary">Contactanos!</div>
+            <div class="text-3xl text-emerald-600">Contactanos!</div>
           </div>
         </template>
         <template #description>

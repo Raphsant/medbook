@@ -22,7 +22,11 @@
         class="lg:grid lg:grid-cols-2 gap-4 flex flex-col justify-center items-center place-items-center py-6 rounded-lg"
       >
         <template v-for="doctor in doctors">
-          <UCard v-if="doctor.specialty == selectedSpecialty" class="w-3/4">
+          <UCard
+            :ui="{ background: 'bg-emerald-50' }"
+            v-if="doctor.specialty == selectedSpecialty"
+            class="w-3/4"
+          >
             <template #header>
               <div></div>
               <div>

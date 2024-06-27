@@ -9,6 +9,9 @@ export default defineAppConfig({
       dark: {
         background: "var(--color-gray-950)",
       },
+      light: {
+        background: "#ede5ce",
+      },
       header: {
         height: "5rem",
       },

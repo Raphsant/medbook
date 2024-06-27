@@ -3,7 +3,6 @@ import formatPhoneNumber from "~/helper/formatPhoneNumber.js";
 import { z } from "zod";
 import type { FormSubmitEvent } from "#ui/types";
 
-const { isMobile } = useDevice();
 const signupForm = ref({
   firstName: undefined,
   lastName: undefined,
@@ -115,6 +114,7 @@ async function signup(data: any) {
   } catch (e) {
     console.error(e);
     isLoading.value = false;
+    //@ts-ignore
     errorMessage.value = e.message;
   }
 }

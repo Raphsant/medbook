@@ -158,7 +158,7 @@ const rows = computed(() => {
         <div
           class="flex flex-col lg:flex-row justify-center items-center space-y-2.5 lg:space-x-3"
         >
-          <UCard>
+          <UCard :ui="{ background: 'bg-emerald-50' }">
             <template #header>
               <div class="h-fit lg:h-10 flex justify-start items-center">
                 Que significa que mi cita esta "en espera" ?
@@ -170,7 +170,7 @@ const rows = computed(() => {
               que sea oficial.
             </p>
           </UCard>
-          <UCard>
+          <UCard :ui="{ background: 'bg-emerald-50' }">
             <template #header>
               <div class="h-fit lg:h-10 flex justify-start items-center">
                 El dia de mi cita se acerca y mi cita no ha sido confirmada, que

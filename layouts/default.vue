@@ -15,10 +15,10 @@
       <!--      </template>-->
       <template #right>
         <div class="hidden lg:flex justify-center items-center gap-4">
-          <UButton v-if="userRef?.token" @click="handleSignOut"
+          <UButton v-if="isLoggedIn" @click="handleSignOut"
             >Cerrar Sesion
           </UButton>
-          <NuxtLink v-if="!userRef?.token" to="/login">
+          <NuxtLink v-if="!isLoggedIn" to="/login">
             <UButton>Iniciar Sesion</UButton>
           </NuxtLink>
         </div>
@@ -86,16 +86,25 @@ const authStore = useAuthStore();
 const user = ref(JSON.parse(JSON.stringify(authStore.getUser)));
 console.log(user);
 const userRef = ref("");
+const isLoggedIn = ref(false);
 
 onMounted(() => {
-  userRef.value = user.value;
+  if (authStore.user.token) {
+    isLoggedIn.value = true;
+  }
+});
+
+watch(authStore, async (newUser, oldUser) => {
+  if (newUser.user.token) {
+    isLoggedIn.value = true;
+  }
 });
 
 const { token } = user.value;
 
 function handleSignOut() {
   authStore.$reset();
-  userRef.value = "";
+  isLoggedIn.value = false;
   return navigateTo("/login");
 }
 

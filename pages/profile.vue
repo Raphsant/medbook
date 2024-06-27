@@ -1,5 +1,6 @@
 <script setup>
 import { useAuthStore } from "~/store/auth";
+
 definePageMeta({
   middleware: "auth",
 });
@@ -69,7 +70,7 @@ async function updateUserProfile() {
       <template #left></template>
 
       <UPageBody>
-        <UCard class="">
+        <UCard :ui="{ background: 'bg-emerald-50' }" class="">
           <template #header class="flex justify-center items-center">
             <div class="flex justify-center items-center">
               <div class="w-full text-center text-2xl">Ficha del paciente</div>
@@ -128,7 +129,7 @@ async function updateUserProfile() {
         </UCard>
       </UPageBody>
       <template #right>
-        <UPageCard class="w-full">
+        <UPageCard :ui="{ background: 'bg-emerald-50' }" class="w-full">
           <template #title
             ><span class="text-md">Nuestro Horario</span></template
           >

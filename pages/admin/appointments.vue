@@ -40,6 +40,29 @@ watch(apts, async (newApts, oldApts) => {
   apts.value = newApts;
 });
 
+const filter = ref("");
+
+const filterAttribute = [
+  {
+    label: "Nombre",
+    key: "user",
+  },
+  {
+    label: "Doctor",
+    key: "doctor",
+  },
+];
+
+const selectedFilter = ref(filterAttribute[0]);
+
+const aptsArray = computed(() => {
+  return apts.value.filter((apt) => {
+    return apt[selectedFilter.value.key].name
+      .toLowerCase()
+      .includes(filter.value.toLowerCase());
+  });
+});
+
 //iterating through the data array, so we can join the user & doctor names to get the full name.
 const modifyArray = () => {
   if (data) {
@@ -92,6 +115,10 @@ const defaultColumns = [
   {
     key: "user.name",
     label: "Paciente",
+  },
+  {
+    key: "insurance",
+    label: "Seguro",
   },
   {
     key: "status",
@@ -155,13 +182,15 @@ async function handleConfirmation(status) {
           </div>
         </template>
         <template #right>
+          <USelectMenu v-model="selectedFilter" :options="filterAttribute" />
           <UInput
             ref="input"
             icon="i-heroicons-funnel"
             autocomplete="off"
-            placeholder="Filter users..."
+            :placeholder="`Filtar por ${selectedFilter.label}...`"
             class="hidden lg:block"
             @keydown.esc="$event.target.blur()"
+            v-model="filter"
           >
             <template #trailing>
               <UKbd value="/" />
@@ -181,7 +210,8 @@ async function handleConfirmation(status) {
             label="Cancelar Cita"
             icon="i-heroicons-trash"
             color="red"
-          /><UButton
+          />
+          <UButton
             @click="handleConfirmation('en espera')"
             label="Cita en espera"
             icon="i-heroicons-clock"
@@ -206,7 +236,7 @@ async function handleConfirmation(status) {
         }"
         :progress="{ color: 'primary', animation: 'carousel' }"
         :columns="defaultColumns"
-        :rows="apts"
+        :rows="aptsArray"
         :loading="pending"
       >
         <template #status-data="{ row }">

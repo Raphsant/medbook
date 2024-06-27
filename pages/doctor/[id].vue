@@ -13,6 +13,7 @@
 
       <div class="space-y-10 mt-10">
         <UPageCard
+          :ui="{ wrapper: 'bg-emerald-50' }"
           :key="date"
           :variant="selectedDate.selectedDateStr === date ? 'outline' : 'solid'"
           v-for="date in upcomingAvailableDates"
@@ -136,7 +137,7 @@ async function getDoctor() {
       },
     });
     if (res) {
-      console.log(res);
+      // console.log(res);
       return JSON.parse(JSON.stringify(res));
     }
   } catch (e) {
@@ -178,7 +179,7 @@ let upcomingAvailableDates = generateNext14DaysInSpanish(doctor.schedule);
 function getTimeSlotsForDate(dateString, schedule) {
   // Extract the day of the week from the string
   // let dayOfWeek = dateString.split(" ")[0].toLowerCase();
-  console.log(dateString);
+  // console.log(dateString);
 
   let dayOfWeek = dateString.toLocaleDateString("en-US", {
     weekday: "long",
@@ -187,7 +188,7 @@ function getTimeSlotsForDate(dateString, schedule) {
 
   // Check if the day is in the schedule
   if (schedule[dayOfWeek] && schedule[dayOfWeek].active) {
-    console.log(schedule[dayOfWeek].times);
+    // console.log(schedule[dayOfWeek].times);
     return schedule[dayOfWeek].times;
   } else {
     return null;
@@ -240,7 +241,7 @@ async function handleClick() {
   isLoading.value = true;
   await new Promise((r) => setTimeout(r, 1000));
   console.log("DATE");
-  console.log(selectedDate.value);
+  // console.log(selectedDate.value);
   // let datePart = selectedDate.value.selectedDateStr.split(" ")[1];
   let datePart = selectedDate.value.selectedDateStr.toLocaleDateString("en-US");
 
@@ -252,7 +253,7 @@ async function handleClick() {
 
   // Combine date and time
   let dateTime = `${formattedDate}T${selectedTime.value}:00`; // Adding ":00" for seconds
-  console.log(dateTime);
+  // console.log(dateTime);
 
   try {
     let localizedDate = dateTime + "-04:00";
@@ -267,6 +268,7 @@ async function handleClick() {
     // console.log(localizedDate);
     // console.log(caracasTime);
     // console.log(utcDate);
+    console.log(user);
     const res = await $fetch(
       "https://postgresapp-e83cc2ceb04b.herokuapp.com/api/apts/create",
       {
@@ -282,7 +284,7 @@ async function handleClick() {
       },
     );
     if (res) {
-      console.log(res);
+      // console.log(res);
       confirmation.value = res;
       isLoading.value = false;
       showConfirmation.value = true;
@@ -294,7 +296,7 @@ async function handleClick() {
 
 async function getApts() {
   try {
-    console.log(doctor.id);
+    // console.log(doctor.id);
     const res = await $fetch(
       "https://postgresapp-e83cc2ceb04b.herokuapp.com/api/apts/getDoctorApts",
       {
@@ -319,7 +321,7 @@ async function getApts() {
         appointment.dateTime = chicagoTime;
       });
 
-      console.log(res);
+      // console.log(res);
       return res;
     }
   } catch (e) {
@@ -346,8 +348,8 @@ function formatDateTime(dateTimeString) {
   };
 
   // Convert to Spanish locale
-  console.log("Function FormatDateTime");
-  console.log(date.toLocaleString("es-ES", options));
+  // console.log("Function FormatDateTime");
+  // console.log(date.toLocaleString("es-ES", options));
   return date.toLocaleString("es-ES", options);
 }
 
