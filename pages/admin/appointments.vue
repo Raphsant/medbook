@@ -117,6 +117,10 @@ const defaultColumns = [
     label: "Paciente",
   },
   {
+    key: "user.phone",
+    label: "Telf Paciente"
+  },
+  {
     key: "insurance",
     label: "Seguro",
   },
